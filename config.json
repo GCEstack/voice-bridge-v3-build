@@ -1,0 +1,112 @@
+{
+  "_v3_build": "VoiceBridge V3 integrated build (2026-10-01). Keys under v3/paths/audio_retention/capture_health/g6_regression_test were merged in from voice-bridge-v3/config.json. The AssemblyAI key is NOT here and NOT in this tree: .env is supplied by Don when the candidate runs. Never print, copy or log it.",
+  "dictation_hotkey": "ctrl+shift+space",
+  "mode": "wake_word",
+  "continuous": true,
+  "_note_wake_words": "LEGACY ARCHITECTURE (2026-09-02): 'hey keel' wake-word is the OLD design for bouncing across terminal windows. To be REVISITED under the new orchestrator + framework (Don). Do not invest in the current wake-word architecture.",
+  "wake_words": ["hey keel", "ok keel", "okay keel", "keel"],
+  "armed_timeout_seconds": 12.0,
+  "mic_device": "default",
+  "assemblyai_api_key": "",
+  "speech_model": "universal-3-5-pro",
+  "keyterms": [
+    "Plumb",
+    "Kimi",
+    "GLM",
+    "EC4",
+    "EC8",
+    "Claude",
+    "Renzo",
+    "Santonio",
+    "Meyers-Holum",
+    "Luce",
+    "Coda",
+    "Talon",
+    "Vittorio",
+    "Nico",
+    "Hey Keel",
+    "Ok Keel",
+    "Okay Keel",
+    "Keel"
+  ],
+  "sample_rate": 16000,
+  "channels": 1,
+  "vad_threshold": 500.0,
+  "vad_silence_seconds": 3.0,
+  "auto_proofread_after": 0,
+  "auto_concise_after": 0,
+  "supervisor_interval_seconds": 2.0,
+  "v3": {
+    "project": "voice-bridge-v3-build",
+    "gate": "V-GATE_1",
+    "version": "0.1.0",
+    "_note": "V3 engine is persistence + health (src/capture_service.py). The single audio path remains src/capture.py. The interpretation shadow is Stage 2 only: no live authority, no emission, no Stage 3/4/5."
+  },
+  "paths": {
+    "transcripts": "data/transcripts",
+    "audio": "data/audio",
+    "shadow_log": "data/shadow-log",
+    "_note": "Durable full-fidelity transcripts (G6). transcripts/ holds EXACTLY ONE file per finished utterance. data/audio is raw audio, retention-deleted only."
+  },
+  "stt": {
+    "provider": "assemblyai",
+    "api_key": "",
+    "language_code": "en"
+  },
+  "audio_retention": {
+    "enabled": true,
+    "retention_days": 7,
+    "auto_delete": true,
+    "_note": "D-V3-2. Deletes AUDIO ONLY. Never transcripts, never events, never provenance."
+  },
+  "capture_health": {
+    "silence_threshold_seconds": 10,
+    "silence_is_fault": true,
+    "heartbeat_interval_seconds": 30,
+    "_note": "STEP 3.D. Engine health is surfaced in the status line. Observable silence is a FAULT, never quiet. A latched connection fault does not self-clear; silence does."
+  },
+  "g6_regression_test": {
+    "enabled": true,
+    "min_test_utterance_length": 500,
+    "_note": "Durable transcript on disk must be byte-identical to STT output. UI previews may shorten; the durable source never does."
+  },
+  "handoff_queue": {
+    "registry_path": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge\\queue",
+    "sources": [
+      {"path": "C:\\Users\\Dekan AI Brother\\GCE_ORG\\02_COUNCILS\\01_Executive_Council\\Operations\\06_HANDOFFS", "label": "Handoffs"},
+      {"path": "C:\\Users\\Dekan AI Brother\\GCE_ORG\\00_COMMAND\\Decisions", "label": "Decisions"},
+      {"path": "C:\\Users\\Dekan AI Brother\\GCE_ORG\\00_COMMAND\\Findings", "label": "Findings"}
+    ],
+    "refresh_seconds": 30,
+    "limit": 300,
+    "local_state": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge\\queue_local.json",
+    "_boundary": "VoiceBridge READS registry_path and writes ONLY local_state. It never creates, routes, claims or mutates a handoff record. registry_path must be a LOCAL folder - never a Drive mount (Drive is reached through Cable Car, never through a synchronous Tk scan). The producer side owns registry_path. If it is missing the panel shows 'registry offline' and never auto-creates it.",
+    "_producer": "Filled by command-center\\routing\\handoff_registry_producer.js from the real 06_HANDOFFS corpus and the real ai-inbox lifecycle. Records are named gce-hq-*.json. The panel itself writes nothing here. AUTOMATIC (two triggers): (1) the Cable Car publish seam, (2) the durable watcher command-center\\start-queue-watch.cmd, a hidden detached node polling 06_HANDOFFS every 15s - added 2026-09-26 because seat bootstraps write handoffs directly as .md and never pass through Cable Car. The watcher lives in command-center, NOT here; VoiceBridge neither owns nor spawns it, and START-VOICEBRIDGE.cmd does not reference it. MANUAL re-projection: cd GCE_DON\\command-center && npm run handoff-queue."
+  },
+  "queue_refresh": {
+    "_note": "Queue Refresh Authority Model (2026-09-28, Don/Serafina). Tier 3 file watch. Independent disable - does not affect Tier 1 (manual) or Tier 2 (transport seam).",
+    "enabled": true
+  },
+  "queue_filters": {
+    "_what": "Don-authorized cleanup rules for the DERIVED VoiceBridge review surface (2026-09-26). A handoff is not materialised as a queue record if ANY rule matches. These apply ONLY to what the producer writes into registry_path. They never touch 06_HANDOFFS, ai-inbox, Cable Car, Drive or any canonical/history location, and never mutate a transport lifecycle state. The underlying handoff is untouched - it simply gets no review row.",
+    "_workstream_note": "WORKSTREAM is free text in the gce.cable_car.handoff contract and is never inferred, so 'unresolved' for a workstream means it carries no value at all. PROJECT does resolve against seat_registry.json, so 'unresolved' there means present but not a registered project id.",
+    "_fail_safe": "A record whose date cannot be read is NOT deleted. It is reported as unclassifiable and kept, because 'cannot classify' is not 'matches a rule'.",
+    "enabled": true,
+    "require_project": true,
+    "require_workstream": true,
+    "date_on_or_after": "2026-09-22",
+    "exclude_from_seats": ["Keel", "Talon"]
+  },
+  "_deprecated_lanes": {
+    "status": "DEPRECATED / DRAIN ONLY (Don ruling D-4, 2026-09-25)",
+    "removed_from_config": ["kimi", "glm", "claude"],
+    "paths": [
+      "C:\\Users\\Dekan AI Brother\\GCE_DON\\command-center\\ai-inbox\\kimi",
+      "C:\\Users\\Dekan AI Brother\\GCE_DON\\command-center\\ai-inbox\\glm",
+      "C:\\Users\\Dekan AI Brother\\GCE_DON\\command-center\\ai-inbox\\claude"
+    ],
+    "rule": "A routing destination is a SEAT. These lanes were addressed by model/provider/runtime name, which is exactly the MODEL != SEAT violation. They accept NO new traffic. Existing messages are preserved on disk untouched and may be read for provenance. There is no automatic model -> seat forwarding: no seat name is derived from a model name.",
+    "how_to_address_a_seat": "Use the seat mailbox under ...\\ai-inbox\\<seat> or the _shared broadcast, or route a durable handoff through 06_HANDOFFS\\<RECEIVING_SEAT>\\.",
+    "reversible": "NOT APPLICABLE as of 2026-09-26 - queue_sources and route_buttons were removed entirely (Nico strategy E). Re-adding them would also reintroduce an intake crawl and a routing surface inside VoiceBridge, which the review-surface boundary forbids."
+  }
+}

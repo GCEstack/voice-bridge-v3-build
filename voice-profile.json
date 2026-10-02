@@ -1,0 +1,51 @@
+{
+  "opencode": {
+    "parent_trigger": "opencode",
+    "description": "opencode CLI slash commands (typed verbatim into the focused opencode terminal)",
+    "commands": {
+      "branch": {"key": "session_fork", "keys": ["ctrl", "x", "f"]},
+      "fork": {"key": "session_fork", "keys": ["ctrl", "x", "f"]},
+      "fork session": {"key": "session_fork", "keys": ["ctrl", "x", "f"]},
+      "branch session": {"key": "session_fork", "keys": ["ctrl", "x", "f"]},
+      "new session": "/new",
+      "clear": "/new",
+      "resume session": "/sessions",
+      "continue session": "/sessions",
+      "switch session": "/sessions",
+      "sessions": "/sessions",
+      "share session": "/share",
+      "share": "/share",
+      "compact": "/compact",
+      "help": "/help",
+      "models": "/models",
+      "undo": "/undo",
+      "redo": "/redo",
+      "export": "/export",
+      "exit": "/exit",
+      "load luce bootstrap": "load Luce bootstrap",
+      "load talon bootstrap": "load Talon bootstrap",
+      "load coda bootstrap": "load Coda bootstrap",
+      "load vittorio bootstrap": "load Vittorio bootstrap",
+      "load nico bootstrap": "load Nico bootstrap"
+    }
+  },
+  "claude": {
+    "parent_trigger": "claude",
+    "description": "Claude Code slash commands",
+    "commands": {
+      "compact": "/compact",
+      "clear": "/clear",
+      "help": "/help",
+      "model": "/model",
+      "permissions": "/permissions"
+    }
+  },
+  "kimi": {
+    "parent_trigger": "kimi",
+    "description": "Kimi CLI slash commands",
+    "commands": {
+      "help": "/help",
+      "clear": "/clear"
+    }
+  }
+}
