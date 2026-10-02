@@ -84,8 +84,7 @@
     "registry_path": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge\\queue",
     "sources": [
       {"path": "C:\\Users\\Dekan AI Brother\\GCE_ORG\\02_COUNCILS\\01_Executive_Council\\Operations\\06_HANDOFFS", "label": "Handoffs"},
-      {"path": "C:\\Users\\Dekan AI Brother\\GCE_ORG\\00_COMMAND\\Decisions", "label": "Decisions"},
-      {"path": "C:\\Users\\Dekan AI Brother\\GCE_ORG\\00_COMMAND\\Findings", "label": "Findings"}
+      {"path": "C:\\Users\\Dekan AI Brother\\GCE_ORG\\00_COMMAND\\Decisions", "label": "Decisions"}
     ],
     "refresh_seconds": 30,
     "limit": 300,

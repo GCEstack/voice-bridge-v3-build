@@ -65,10 +65,14 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk
+
+COMMAND_CENTER_ROOT = r"C:\Users\Dekan AI Brother\GCE_DON\command-center"
+HANDOFF_PRODUCER_SCRIPT = os.path.join(COMMAND_CENTER_ROOT, "routing", "handoff_registry_producer.js")
 
 DEFAULT_LIMIT = 300
 
@@ -155,33 +159,23 @@ def scan_registry(path: str, limit: int = DEFAULT_LIMIT, sources: list[dict] = N
 
     Missing / unreadable folder -> ([], True). Never auto-creates it.
     A single malformed file is skipped; it never aborts the scan.
-    Supports multiple source roots via sources config.
+
+    Always reads from registry_path (where producer writes gce-hq-*.json).
+    The sources parameter is accepted for signature compatibility but ignored -
+    the producer uses sources to BUILD the registry; the reader reads the registry.
     """
     items: list[dict] = []
 
-    if sources:
-        for src in sources:
-            src_path = Path(src.get("path", ""))
-            src_label = src.get("label", src_path.name)
-            if src_path.exists() and src_path.is_dir():
-                for f in sorted(src_path.glob("*.json")):
-                    try:
-                        m = json.loads(f.read_text(encoding="utf-8"))
-                        rec = normalize_record(m, f)
-                        rec["source"] = src_label
-                        items.append(rec)
-                    except Exception:
-                        continue
-    else:
-        p = Path(path) if path else None
-        if p is None or not path.strip() or not p.exists() or not p.is_dir():
-            return [], True
-        for f in sorted(p.glob("*.json")):
-            try:
-                m = json.loads(f.read_text(encoding="utf-8"))
-                items.append(normalize_record(m, f))
-            except Exception:
-                continue
+    p = Path(path) if path else None
+    if p is None or not path.strip() or not p.exists() or not p.is_dir():
+        return [], True
+
+    for f in sorted(p.glob("*.json")):
+        try:
+            m = json.loads(f.read_text(encoding="utf-8"))
+            items.append(normalize_record(m, f))
+        except Exception:
+            continue
 
     items.sort(key=lambda r: str(r.get("created_at", "")), reverse=True)
     return items[: max(1, int(limit))], False
@@ -435,6 +429,25 @@ class QueuePanel(tk.Frame):
 
     # -- behavior --------------------------------------------------------
     def refresh(self):
+        self._set_action("refreshing...", True)
+        try:
+            result = subprocess.run(
+                ["node", HANDOFF_PRODUCER_SCRIPT],
+                cwd=COMMAND_CENTER_ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            if result.returncode == 0:
+                self._set_action("registry updated", True)
+            else:
+                self._set_action(f"producer warning: {result.stderr[:100]}", False)
+        except subprocess.TimeoutExpired:
+            self._set_action("producer timed out", False)
+        except FileNotFoundError:
+            self._set_action("producer not found", False)
+        except Exception as e:
+            self._set_action(f"producer error: {e}", False)
         self._all, offline = scan_registry(self.registry_path, self.limit, self.sources)
         self._show_empty_diagnostic(offline)
         self._render()
@@ -457,17 +470,26 @@ class QueuePanel(tk.Frame):
             self._set_action(f"{len(self._all)} record(s) — {path_info}", True)
 
     def _open_handoff_folder(self):
-        """Open the registry folder in Windows Explorer."""
-        if not self.registry_path:
-            self._set_action("no handoff folder configured", False)
+        """Open the selected record's artifact containing directory in Windows Explorer."""
+        it = self._selected()
+        if not it:
+            self._set_action("select a record first", False)
             return
-        p = Path(self.registry_path)
+        local = it.get("local_path", "")
+        if not local:
+            self._set_action("no local path to open", False)
+            return
+        if local.startswith("http://") or local.startswith("https://"):
+            self._set_action("artifact is remote-only", False)
+            return
+        p = Path(local)
         if not p.exists():
-            self._set_action(f"folder not found: {self.registry_path}", False)
+            self._set_action("artifact no longer exists at path", False)
             return
         try:
-            os.startfile(str(p))
-            self._set_action(f"opened {self.registry_path}", True)
+            folder = str(p.parent)
+            os.startfile(folder)
+            self._set_action(f"opened {folder}", True)
         except Exception as e:
             self._set_action(f"failed: {e}", False)
 
