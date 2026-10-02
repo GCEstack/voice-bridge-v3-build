@@ -70,6 +70,16 @@
     "min_test_utterance_length": 500,
     "_note": "Durable transcript on disk must be byte-identical to STT output. UI previews may shorten; the durable source never does."
   },
+  "interpretation": {
+    "_note": "Read by run_v3.py interpret. Stage 2 shadow only: no live authority, no emission, no Stage 3/4/5.",
+    "model_version": "v3-stage2",
+    "pipeline_version": "v1.2"
+  },
+  "measurement": {
+    "_note": "Read by run_v3.py measure. ground_truth_dir is optional; when absent, accuracy metrics are skipped and the multi-claim + confidence-distribution metrics still run.",
+    "ground_truth_dir": "data/ground-truth",
+    "confidence_buckets": 5
+  },
   "handoff_queue": {
     "registry_path": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge\\queue",
     "sources": [
