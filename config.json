@@ -6,7 +6,7 @@
   "_note_wake_words": "LEGACY ARCHITECTURE (2026-09-02): 'hey keel' wake-word is the OLD design for bouncing across terminal windows. To be REVISITED under the new orchestrator + framework (Don). Do not invest in the current wake-word architecture.",
   "wake_words": ["hey keel", "ok keel", "okay keel", "keel"],
   "armed_timeout_seconds": 12.0,
-  "mic_device": "default",
+  "mic_device": 1,
   "assemblyai_api_key": "",
   "speech_model": "universal-3-5-pro",
   "keyterms": [
@@ -82,15 +82,12 @@
   },
   "handoff_queue": {
     "registry_path": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge\\queue",
-    "sources": [
-      {"path": "C:\\Users\\Dekan AI Brother\\GCE_ORG\\02_COUNCILS\\01_Executive_Council\\Operations\\06_HANDOFFS", "label": "Handoffs"},
-      {"path": "C:\\Users\\Dekan AI Brother\\GCE_ORG\\00_COMMAND\\Decisions", "label": "Decisions"}
-    ],
     "refresh_seconds": 30,
     "limit": 300,
     "local_state": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge\\queue_local.json",
+    "_sources_removed": "2026-10-02 (Nico, VoiceBridge recovery). handoff_queue.sources is DELETED, not merely ignored. It listed 06_HANDOFFS / 00_COMMAND\\Decisions / 00_COMMAND\\Findings, and scan_registry branched on it: when present it scanned those roots for *.json and never read registry_path at all. Those roots cannot satisfy a scan - 06_HANDOFFS keeps its JSON inside per-seat subfolders and the durable handoffs are .md, so the panel read 0 records while the producer was writing 38. The key was producer-side metadata that the producer itself never reads. Registry is the single read path.",
     "_boundary": "VoiceBridge READS registry_path and writes ONLY local_state. It never creates, routes, claims or mutates a handoff record. registry_path must be a LOCAL folder - never a Drive mount (Drive is reached through Cable Car, never through a synchronous Tk scan). The producer side owns registry_path. If it is missing the panel shows 'registry offline' and never auto-creates it.",
-    "_producer": "Filled by command-center\\routing\\handoff_registry_producer.js from the real 06_HANDOFFS corpus and the real ai-inbox lifecycle. Records are named gce-hq-*.json. The panel itself writes nothing here. AUTOMATIC (two triggers): (1) the Cable Car publish seam, (2) the durable watcher command-center\\start-queue-watch.cmd, a hidden detached node polling 06_HANDOFFS every 15s - added 2026-09-26 because seat bootstraps write handoffs directly as .md and never pass through Cable Car. The watcher lives in command-center, NOT here; VoiceBridge neither owns nor spawns it, and START-VOICEBRIDGE.cmd does not reference it. MANUAL re-projection: cd GCE_DON\\command-center && npm run handoff-queue."
+    "_producer": "Filled by command-center\\routing\\handoff_registry_producer.js from the real 06_HANDOFFS corpus and the real ai-inbox lifecycle. Records are named gce-hq-*.json. The panel itself writes nothing here and never invokes the producer. AUTOMATIC (three triggers, none of which Don operates): (1) the Cable Car publish seam, (2) the durable watcher command-center\\start-queue-watch.cmd, a hidden detached node polling 06_HANDOFFS every 15s - added 2026-09-26 because seat bootstraps write handoffs directly as .md and never pass through Cable Car, and (3) a launch-time projection in START-VOICEBRIDGE.cmd added 2026-10-02, which is a ONE-TIME call into the same idempotent command-center launcher so a stale registry cannot present itself as an empty queue on open. OPEN GOVERNANCE QUESTION for Don/Coda: the watcher and queue/README.md both state that VoiceBridge does not spawn the watcher and that START-VOICEBRIDGE.cmd does not reference it. Trigger (3) deliberately contradicts that sentence to satisfy 'new work reaches it without Don operating backend plumbing'. Ratify trigger (3), or name a different automatic trigger; removing it is one deleted block in the launcher. MANUAL re-projection: cd GCE_DON\\command-center && npm run handoff-queue."
   },
   "queue_refresh": {
     "_note": "Queue Refresh Authority Model (2026-09-28, Don/Serafina). Tier 3 file watch. Independent disable - does not affect Tier 1 (manual) or Tier 2 (transport seam).",

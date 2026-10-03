@@ -1,4 +1,4 @@
-"""Gate P harness — VoiceBridge V3 integrated build.
+﻿"""Gate P harness â€” VoiceBridge V3 integrated build.
 
 STEP 4 of the build order: "Run the integrated build against every inventory
 item in Sec. 2 ... All green -> candidate goes to Don for his real-usage run.
@@ -129,7 +129,7 @@ def _drain(bridge, timeout=5.0):
 # CONTROLS
 # ---------------------------------------------------------------------------
 def test_control_mic_toggle(tmp_path):
-    """CONTROL: Mic toggle.  BEHAVIOUR — real handler, fake capture."""
+    """CONTROL: Mic toggle.  BEHAVIOUR â€” real handler, fake capture."""
     bridge = _make_bridge(tmp_path)
 
     class FakeCap:
@@ -166,7 +166,7 @@ def test_control_mic_toggle(tmp_path):
 
 
 def test_control_listening_indicator(tmp_path):
-    """CONTROL: listening indicator.  BEHAVIOUR — the reachable status strings.
+    """CONTROL: listening indicator.  BEHAVIOUR â€” the reachable status strings.
 
     A listening indicator that is not asserted against the strings the running
     code actually emits is a decoration, not a control.
@@ -210,7 +210,7 @@ def test_control_listening_indicator(tmp_path):
 
     # The recovery string the supervisor prints on a live session.
     src = (ROOT / "src" / "voice_bridge.py").read_text(encoding="utf-8")
-    assert "● listening — speak now" in src
+    assert "â— listening â€” speak now" in src
     bridge._stopping = True
 
 
@@ -236,7 +236,7 @@ def test_control_mode_display(tmp_path):
 
 
 def test_control_reconnect(tmp_path):
-    """CONTROL: Reconnect.  BEHAVIOUR — real handler, fake capture."""
+    """CONTROL: Reconnect.  BEHAVIOUR â€” real handler, fake capture."""
     bridge = _make_bridge(tmp_path)
     seen = []
     bridge._set_status = seen.append
@@ -260,7 +260,7 @@ def test_control_reconnect(tmp_path):
 
 
 def test_control_quit(tmp_path):
-    """CONTROL: Quit.  BEHAVIOUR — voice 'quit' and the button handler."""
+    """CONTROL: Quit.  BEHAVIOUR â€” voice 'quit' and the button handler."""
     bridge = _make_bridge(tmp_path)
     closed = []
     bridge._schedule_close = lambda: closed.append(True)
@@ -285,7 +285,7 @@ def test_control_quit(tmp_path):
 def test_control_show_dismissed_checkbox(tmp_path):
     """CONTROL: Show dismissed checkbox.  BEHAVIOUR on the filter, INSPECTION
     on the widget. A missing control is a missing binding, and a missing
-    binding is a missing call — so the widget construction is asserted."""
+    binding is a missing call â€” so the widget construction is asserted."""
     from src import queue_panel as qp
 
     src = (ROOT / "src" / "queue_panel.py").read_text(encoding="utf-8")
@@ -315,7 +315,7 @@ def test_control_refresh_and_status_line(tmp_path):
 
 
 def test_control_row_actions(tmp_path):
-    """CONTROL: row actions.  BEHAVIOUR — the six actions and their payloads."""
+    """CONTROL: row actions.  BEHAVIOUR â€” the six actions and their payloads."""
     from src import queue_panel as qp
 
     src = (ROOT / "src" / "queue_panel.py").read_text(encoding="utf-8")
@@ -363,7 +363,7 @@ def test_flow_wake_word_in_the_live_continuous_path(tmp_path):
     GATE P AMENDMENT (2026-10-01). This item was originally verified only
     against the dormant SLEEPING/ARMED branch, with `continuous=False`. That
     branch is unreachable: `run()` force-sets `continuous=True`, so the wake
-    word was never consulted in the live build — saying "hey keel" typed the
+    word was never consulted in the live build â€” saying "hey keel" typed the
     words "hey keel" into the focused window and armed nothing.
 
     Sec. 2 lists "wake word -> activate listening" as a required flow, so a
@@ -438,7 +438,7 @@ def test_wake_word_match_is_word_boundary_aware(tmp_path):
 
 
 def test_flow_wake_word_to_listening_legacy_branch(tmp_path):
-    """FLOW: wake word -> activate listening.  BEHAVIOUR — all four wake words."""
+    """FLOW: wake word -> activate listening.  BEHAVIOUR â€” all four wake words."""
     bridge = _make_bridge(tmp_path)
     assert bridge.wake_words == ("hey keel", "ok keel", "okay keel", "keel")
     for ww in bridge.wake_words:
@@ -464,7 +464,7 @@ def test_flow_wake_word_to_listening_legacy_branch(tmp_path):
 
 
 def test_flow_vad_gate(tmp_path):
-    """FLOW: VAD silence gating.  BEHAVIOUR — the real gate function."""
+    """FLOW: VAD silence gating.  BEHAVIOUR â€” the real gate function."""
     import array
 
     cap = AssemblyAICapture(AudioCaptureConfig(
@@ -577,15 +577,88 @@ def test_surgery_c_exactly_one_durable_per_utterance(tmp_path):
 
 
 def test_surgery_b_queue_panel_read_path_unchanged(tmp_path):
-    """SURGERY B: the queue panel read path is BYTE-IDENTICAL to the baseline.
+    """The queue panel read path is BYTE-IDENTICAL to the 2026-10-02 repair.
 
-    Not "still works" — identical bytes. The order freezes this surface, so a
-    hash is the honest test; a behavioural test would pass equally happily
-    after an unrequested refactor.
+    Not "still works" - identical bytes, so a hash is the honest test.
+
+    THE FREEZE MOVED on 2026-10-02 (Nico, VoiceBridge recovery). It previously
+    asserted equality with voice-bridge-baseline-20260930, i.e. "this surface
+    was not touched by the V3 surgery". That was true and it is no longer the
+    claim. The pre-repair queue panel could not render the queue at all:
+
+      * scan_registry branched on handoff_queue.sources and never read
+        registry_path, so it scanned 06_HANDOFFS non-recursively for *.json,
+        found nothing, and returned 0 records while the producer was writing 38.
+      * refresh() shelled out to the node producer on the Tk thread, breaking
+        the read-only contract and freezing the window each cycle.
+      * 7 columns (552px) in a 464px tree with no h-scrollbar left WORKSTREAM
+        and SOURCE permanently unreachable.
+      * [Archive reviewed] raised AttributeError, and once fixed mutated the
+        producer-owned registry by moving record files it could not keep.
+
+    The surface is frozen NOW, against the repaired bytes. This is still a
+    drift detector: any later unrequested change to the read path fails here.
     """
-    assert _sha(ROOT / "src" / "queue_panel.py") == \
-        _sha(BASELINE / "src" / "queue_panel.py"), \
-        "queue_panel.py drifted from the frozen baseline"
+    expected = "f07c0c9fa38498e5c18d54e53a8fd1d3b9f9e589af14e059424f06adCBD1DEC5".lower()
+    assert _sha(ROOT / "src" / "queue_panel.py") == expected, \
+        "queue_panel.py drifted from the 2026-10-02 repaired freeze"
+
+
+def test_repair_queue_panel_reads_registry_and_never_writes_it():
+    """The repaired read path: registry_path in, exactly one file out.
+
+    Behavioural companion to the freeze above. The freeze proves nobody edited
+    the file; this proves the file still does the one thing it must do.
+    """
+    from src import queue_panel as qp
+
+    cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
+    hq = cfg["handoff_queue"]
+
+    # The shadowing key is gone from config, not merely ignored in code.
+    assert "sources" not in hq, \
+        "handoff_queue.sources must stay deleted: it shadowed registry_path"
+    assert hq["registry_path"].endswith("queue")
+
+    # scan_registry ignores `sources` entirely: a populated sources list must
+    # not be able to steer the scan away from the registry again.
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        reg = Path(td) / "queue"
+        reg.mkdir()
+        (reg / "r1.json").write_text(json.dumps({
+            "id": "r1", "subject": "s", "created_at": "2026-10-02T10:00:00"}),
+            encoding="utf-8")
+        decoy = Path(td) / "decoy"
+        decoy.mkdir()
+        (decoy / "r2.json").write_text(json.dumps({"id": "r2", "subject": "decoy"}),
+                                       encoding="utf-8")
+        recs, offline = qp.scan_registry(str(reg), 300,
+                                         [{"path": str(decoy), "label": "decoy"}])
+        assert offline is False
+        assert [r["id"] for r in recs] == ["r1"], \
+            "a populated sources list must not redirect the scan"
+
+    # The panel never spawns the producer and never imports subprocess.
+    # Checked against the live module namespace and against the parsed import
+    # list - not against the raw source text, because the repair log inside
+    # that file legitimately NAMES subprocess.run and the producer script.
+    assert not hasattr(qp, "subprocess"), \
+        "the read-only panel must not invoke the producer"
+    import ast
+    tree = ast.parse((ROOT / "src" / "queue_panel.py").read_text(encoding="utf-8"))
+    imported = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            imported.update(a.name.split(".")[0] for a in node.names)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            imported.add(node.module.split(".")[0])
+            imported.update(a.name for a in node.names)
+    assert "subprocess" not in imported, \
+        "queue_panel.py must not import subprocess: the panel is read-only"
+    assert "messagebox" in imported, \
+        "[Archive reviewed] needs tkinter.messagebox imported; it raised " \
+        "AttributeError on every click while that was missing"
 
 
 def test_flow_queue_panel_auto_refresh_reads_registry(tmp_path):
@@ -612,7 +685,7 @@ def test_flow_queue_panel_auto_refresh_reads_registry(tmp_path):
 
 
 def test_flow_websocket_reconnect_on_drop(tmp_path):
-    """FLOW: WebSocket reconnect on drop.  BEHAVIOUR — the supervisor reacts.
+    """FLOW: WebSocket reconnect on drop.  BEHAVIOUR â€” the supervisor reacts.
 
     The supervisor is an infinite loop, so it is driven in a thread against a
     capture that reports a dead websocket and stopped once the rebuild is
@@ -672,7 +745,7 @@ def test_flow_websocket_reconnect_on_drop(tmp_path):
 def test_successful_reconnect_clears_the_health_fault(tmp_path):
     """The other half of SURGERY D: a real recovery really does clear it.
 
-    Without this, "the fault is latched" is only half a contract — a fault that
+    Without this, "the fault is latched" is only half a contract â€” a fault that
     can never clear is indistinguishable from a broken indicator.
     """
     bridge = _make_bridge(tmp_path)
@@ -732,7 +805,7 @@ def test_successful_reconnect_clears_the_health_fault(tmp_path):
 
 
 def test_flow_voice_command_handlers(tmp_path):
-    """FLOW: voice command handlers.  BEHAVIOUR — real command routing."""
+    """FLOW: voice command handlers.  BEHAVIOUR â€” real command routing."""
     from src.voice_commands import COMMAND_HELP, handle_command
 
     assert isinstance(COMMAND_HELP, str) and COMMAND_HELP
@@ -825,7 +898,7 @@ def test_flow_voice_profiles(tmp_path):
 
 
 def test_flow_config_json_read(tmp_path):
-    """FLOW: config.json read.  BEHAVIOUR — the real loader, merged keys."""
+    """FLOW: config.json read.  BEHAVIOUR â€” the real loader, merged keys."""
     from src.config import load_config
 
     cfg = load_config(str(ROOT / "config.json"))
@@ -859,7 +932,7 @@ def test_flow_llm_unchanged(tmp_path):
 
 
 # ---------------------------------------------------------------------------
-# SURGERY D — engine health
+# SURGERY D â€” engine health
 # ---------------------------------------------------------------------------
 def test_surgery_d_health_is_observable(tmp_path):
     """SURGERY D: engine health is observable; silence is a fault, not quiet."""
@@ -991,13 +1064,23 @@ def test_surgery_surface_is_exactly_the_declared_files():
     Guards against an unrequested change reaching the candidate. If a future
     change touches a fourth source file, this fails and the change has to be
     argued for rather than slipped in.
+
+    2026-10-02 (Nico, VoiceBridge recovery): src/queue_panel.py and .gitignore
+    joined the declared set. queue_panel.py because the recovery repaired four
+    real defects in it (see the freeze test above for the defects and the
+    hashes). .gitignore because the pre-repair session already had it changed
+    and it was failing this guard before the recovery began - an undeclared
+    change that had to be either reverted or declared, and reverting it would
+    have un-hidden logs and queue state that must stay untracked.
     """
     allowed = {
         "src/intent.py",
         "src/voice_bridge.py",
+        "src/queue_panel.py",
         "tests/test_voice_bridge.py",
         "config.json",
         "START-VOICEBRIDGE.cmd",
+        ".gitignore",
     }
     changed, missing = set(), set()
     for base_file in BASELINE.rglob("*"):

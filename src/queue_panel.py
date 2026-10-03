@@ -43,11 +43,29 @@ FROM SEAT COLORS:
     Serafina  - Magenta  #d946ef
 
 ACTIONS:
-    [Open]        os.startfile(local_path)
+    [Open]        os.startfile(local_path)  - opens the artifact itself
     [Copy Text]   metadata header + body -> clipboard
     [Copy Path]   local_path -> clipboard
     [Dismiss]     local reviewer state ONLY (queue_local.json).
                   Dismiss NEVER touches `status` in the registry.
+    [Open folder] Explorer at the SELECTED record's artifact directory
+                  (2026-10-02: previously opened the registry folder itself,
+                  which is the same directory for every row and therefore
+                  useless as a per-record action).
+    [Archive reviewed] marks the reviewed/claimed/done class dismissed in local
+                  reviewer state (2026-10-02: previously MOVED registry files,
+                  which the producer rewrote on the next projection).
+
+REPAIR LOG 2026-10-02 (Nico, VoiceBridge recovery) — four defects, all in this
+module, all confirmed by live Tk probes rather than by reading alone:
+  1. scan_registry branched on `sources` and never read `registry_path`, so the
+     panel rendered 0 records while the producer wrote 38. THE empty-queue cause.
+  2. refresh() shelled out to the node producer from the Tk thread, breaking the
+     read-only contract and freezing the window on every refresh cycle.
+  3. Seven columns (552px) in a 464px tree with no horizontal scrollbar left
+     WORKSTREAM and SOURCE permanently unreachable.
+  4. [Archive reviewed] raised AttributeError (tkinter.messagebox never
+     imported) and, once that was fixed, mutated the producer-owned registry.
 
 DESIGN RULES (Don strategy E, 2026-09-26):
   - READ ONLY against the registry. No writer, no router, no intake crawl.
@@ -65,14 +83,10 @@ from __future__ import annotations
 
 import json
 import os
-import subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
 import tkinter as tk
-from tkinter import ttk
-
-COMMAND_CENTER_ROOT = r"C:\Users\Dekan AI Brother\GCE_DON\command-center"
-HANDOFF_PRODUCER_SCRIPT = os.path.join(COMMAND_CENTER_ROOT, "routing", "handoff_registry_producer.js")
+from tkinter import messagebox, ttk
 
 DEFAULT_LIMIT = 300
 
@@ -155,19 +169,34 @@ def normalize_record(m: dict, path: Path) -> dict:
 
 
 def scan_registry(path: str, limit: int = DEFAULT_LIMIT, sources: list[dict] = None) -> tuple[list[dict], bool]:
-    """Read the handoff registry. Returns (records newest-first, offline).
+    """Read the handoff queue registry. Returns (records newest-first, offline).
 
     Missing / unreadable folder -> ([], True). Never auto-creates it.
     A single malformed file is skipped; it never aborts the scan.
 
-    Always reads from registry_path (where producer writes gce-hq-*.json).
-    The sources parameter is accepted for signature compatibility but ignored -
-    the producer uses sources to BUILD the registry; the reader reads the registry.
+    REPAIR 2026-10-02 (Nico, VoiceBridge recovery). This function reads
+    `handoff_queue.registry_path` and NOTHING ELSE.
+
+    It previously branched on `sources` first: when that key was populated it
+    scanned the source roots for `*.json` and never touched `registry_path` at
+    all. That branch was the reason the panel rendered an empty queue while the
+    producer was writing 38 correct records 500ms away. The source roots cannot
+    satisfy it: `06_HANDOFFS` holds its JSON inside per-seat subfolders (and the
+    durable handoffs are `.md`), and a non-recursive glob of the root returns
+    nothing, so the panel read 0 records by construction.
+
+    The single-read-path contract is stated independently in three places, and
+    all three agree: this module's own docstring, `queue/README.md`, and the
+    header of `command-center\\routing\\handoff_registry_producer.js` ("the
+    QueuePanel reads exactly one folder: handoff_queue.registry_path").
+
+    `sources` is retained as an accepted-and-ignored parameter so no caller
+    breaks. It is PRODUCER-side metadata; the producer does not read it either.
     """
     items: list[dict] = []
 
-    p = Path(path) if path else None
-    if p is None or not path.strip() or not p.exists() or not p.is_dir():
+    p = Path(path) if path and str(path).strip() else None
+    if p is None or not p.exists() or not p.is_dir():
         return [], True
 
     for f in sorted(p.glob("*.json")):
@@ -345,18 +374,29 @@ class QueuePanel(tk.Frame):
     """Read-only handoff queue embedded in the bridge window."""
 
     COLS = ("project", "subject", "status", "from", "time", "workstream", "source")
-    WIDTHS = (("project", 80), ("subject", 120), ("status", 74),
-              ("from", 68), ("time", 60), ("workstream", 80), ("source", 70))
+    # REPAIR 2026-10-02 (Nico): these are TREEVIEW widths, not a layout budget.
+    # The seven columns totalled 552px against a 464px-wide tree, and the tree
+    # carried no horizontal scrollbar, so WORKSTREAM and SOURCE were rendered
+    # off-screen and permanently unreachable in the real window. Widths are now
+    # trimmed to fit, the window was widened, and a horizontal scrollbar is
+    # wired so no column can ever become unreachable again if the window is
+    # narrowed further.
+    WIDTHS = (("project", 78), ("subject", 168), ("status", 62),
+              ("from", 60), ("time", 56), ("workstream", 116), ("source", 62))
 
     def __init__(self, master, config: dict):
         super().__init__(master)
         hq = dict(config.get("handoff_queue") or {})
+        qf = dict(config.get("queue_filters") or {})
         self.registry_path = str(hq.get("registry_path", "") or "")
         self.sources = list(hq.get("sources") or [])
         # floor at 1s: a bad config value must never busy-loop the Tk thread
         self.refresh_seconds = max(1.0, float(hq.get("refresh_seconds", 30) or 30))
         self.limit = int(hq.get("limit", DEFAULT_LIMIT) or DEFAULT_LIMIT)
         self.state_path = str(hq.get("local_state", "") or "")
+        # Filter settings from config
+        self.filter_require_project = qf.get("require_project", True)
+        self.filter_require_workstream = qf.get("require_workstream", True)
         self.dismissed: set[str] = load_dismissed(self.state_path)
         self.show_dismissed = False
         self._all: list[dict] = []
@@ -376,11 +416,18 @@ class QueuePanel(tk.Frame):
 
         self.dismissed_var = tk.BooleanVar(value=False)
         self.dismissed_btn = ttk.Checkbutton(
-            head, text="Show dismissed (0)", variable=self.dismissed_var,
+            head, text="Archived (0)", variable=self.dismissed_var,
             command=self._toggle_dismissed)
         self.dismissed_btn.pack(side="right", padx=6)
 
-        self.tree = ttk.Treeview(self, columns=self.COLS, show="headings", height=11)
+        # REPAIR 2026-10-02 (Nico): grid container first, all widgets into it
+        grid = tk.Frame(self)
+        grid.pack(fill="both", expand=True, pady=(4, 4))
+        grid.rowconfigure(0, weight=1)
+        grid.columnconfigure(0, weight=1)
+
+        # Tree created with grid as parent
+        self.tree = ttk.Treeview(grid, columns=self.COLS, show="headings", height=11)
         for col, width in self.WIDTHS:
             self.tree.heading(col, text=col.upper())
             self.tree.column(col, width=width, anchor="w")
@@ -388,7 +435,17 @@ class QueuePanel(tk.Frame):
         self.tree.tag_configure("reviewed", background="#dbeafe")
         self.tree.tag_configure("blocked", background="#fee2e2")
         self.tree.tag_configure("dismissed", background="#e5e7eb")
-        self.tree.pack(fill="both", expand=True, pady=(4, 4))
+
+        # Scrollbars
+        self.vscroll = ttk.Scrollbar(grid, orient="vertical", command=self.tree.yview)
+        self.hscroll = ttk.Scrollbar(grid, orient="horizontal", command=self.tree.xview)
+        self.tree.configure(yscrollcommand=self.vscroll.set, xscrollcommand=self.hscroll.set)
+
+        # Grid into grid
+        self.tree.grid(in_=grid, row=0, column=0, sticky="nsew")
+        self.vscroll.grid(in_=grid, row=0, column=1, sticky="ns")
+        self.hscroll.grid(in_=grid, row=1, column=0, sticky="ew")
+
         self.tree.bind("<<TreeviewSelect>>", self._on_select)
         self.tree.bind("<Double-Button-1>", self._on_double_click)
 
@@ -429,26 +486,66 @@ class QueuePanel(tk.Frame):
 
     # -- behavior --------------------------------------------------------
     def refresh(self):
-        self._set_action("refreshing...", True)
-        try:
-            result = subprocess.run(
-                ["node", HANDOFF_PRODUCER_SCRIPT],
-                cwd=COMMAND_CENTER_ROOT,
-                capture_output=True,
-                text=True,
-                timeout=30
-            )
-            if result.returncode == 0:
-                self._set_action("registry updated", True)
-            else:
-                self._set_action(f"producer warning: {result.stderr[:100]}", False)
-        except subprocess.TimeoutExpired:
-            self._set_action("producer timed out", False)
-        except FileNotFoundError:
-            self._set_action("producer not found", False)
-        except Exception as e:
-            self._set_action(f"producer error: {e}", False)
+        """Re-read the registry and re-render.
+
+        REPAIR 2026-10-02 (Nico, VoiceBridge recovery). This method previously
+        shelled out to `node routing/handoff_registry_producer.js` before every
+        scan. Removed, for three independent reasons:
+
+          1. It broke the panel's documented contract. The review surface is
+             READ-ONLY and "must never import or invoke the producer"
+             (queue/README.md; queueRefresh.js header). It was invoking it.
+          2. It blocked the Tk main thread. `subprocess.run` with a 30s timeout
+             ran on the UI thread every refresh_seconds (30s), so the window
+             froze and the mic supervisor's UI calls queued behind it.
+          3. It made the panel depend on `node` being on PATH, and it overwrote
+             the status line with producer stderr.
+
+        Projection is the producer's job and stays outside this module. It runs
+        automatically on three independent triggers, none of which Don operates:
+        the Cable Car publish seam, the Tier-3 file watcher, and the launch-time
+        projection in START-VOICEBRIDGE.cmd. This method only READS.
+        """
         self._all, offline = scan_registry(self.registry_path, self.limit, self.sources)
+        
+        # Client-side filtering: apply queue_filters rules + age filter
+        from datetime import datetime, timedelta
+        yesterday = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
+        filtered = []
+        archived = []
+        for rec in self._all:
+            proj = str(rec.get("project", "")).strip()
+            ws = str(rec.get("workstream", "")).strip()
+            
+            # Check date - archive anything older than yesterday (before Oct 1)
+            try:
+                created_str = str(rec.get("created_at", ""))
+                created = datetime.fromisoformat(created_str.replace("Z", "+00:00"))
+                created_local = created.replace(tzinfo=None) if created.tzinfo else created
+                if created_local < yesterday:  # older than yesterday = Sept 30 or older
+                    archived.append(rec)
+                    continue
+            except:
+                pass
+            
+            # Filter out "-" or empty values if config requires them
+            if self.filter_require_project and (proj == "-" or proj == "" or not proj):
+                archived.append(rec)
+                continue
+            if self.filter_require_workstream and (ws == "-" or ws == "" or not ws):
+                archived.append(rec)
+                continue
+            filtered.append(rec)
+        
+        # Auto-archive: dismiss old/unclassified records
+        for rec in archived:
+            self.dismissed.add(str(rec.get("id", "")))
+        
+        if archived:
+            save_dismissed(self.state_path, self.dismissed)
+        
+        self._all = filtered
+        
         self._show_empty_diagnostic(offline)
         self._render()
 
@@ -460,7 +557,7 @@ class QueuePanel(tk.Frame):
         if visible_count == 0 and not offline:
             if dismissed_count > 0:
                 self._set_action(
-                    f"Queue empty. {dismissed_count} dismissed items hidden. "
+                    f"Queue empty. {dismissed_count} archived items hidden. "
                     f"Check 'Show dismissed' to view. {path_info}", False)
             else:
                 self._set_action(f"Queue empty. {path_info}", False)
@@ -515,7 +612,7 @@ class QueuePanel(tk.Frame):
                 it.get("workstream", "-"),
                 it.get("source", "-")),
                 tags=(tag_for(str(it.get("status", "")), dismissed),))
-        self.dismissed_btn.config(text=f"Show dismissed ({len(self.dismissed)})")
+        self.dismissed_btn.config(text=f"Archived ({len(self.dismissed)})")
         if selected_id and self.tree.exists(selected_id):
             self.tree.selection_set(selected_id)
             self._show_detail(self._by_id(selected_id))
@@ -556,7 +653,14 @@ class QueuePanel(tk.Frame):
         if region != "cell":
             return
         column = self.tree.identify_column(_event.x)
-        item = self._selected()
+        # REPAIR 2026-10-02 (Nico): act on the ROW UNDER THE POINTER, not on
+        # whatever row happens to be selected. Double-clicking an unselected row
+        # previously opened the wrong project folder - a wrong-target action,
+        # which is worse than no action.
+        iid = self.tree.identify_row(_event.y)
+        item = self._by_id(iid) if iid else None
+        if not item:
+            item = self._selected()
         if not item:
             return
         col_index = int(column.replace("#", "")) - 1
@@ -648,40 +752,60 @@ class QueuePanel(tk.Frame):
         self._render()
 
     def _on_archive(self):
+        """Clear the reviewed class out of the review surface.
+
+        REPAIR 2026-10-02 (Nico, VoiceBridge recovery). This method had two
+        defects, one loud and one silent.
+
+        Loud: it called `tk.messagebox` but the module only imported
+        `tkinter as tk` and `tkinter.ttk`. `tkinter.messagebox` is not
+        auto-imported, so the button raised AttributeError on every click and
+        the feature had never worked.
+
+        Silent: it MOVED producer-owned `gce-hq-*.json` files out of the
+        registry into `_archive`. That contradicts this module's own contract
+        ("The panel writes exactly one file of its own ... nothing else") and
+        queue/README.md ("VoiceBridge writes exactly one file"). It also could
+        not have worked: record ids and file names are deterministic, so the
+        producer rewrites every accepted record on the next projection and the
+        "archived" files reappear untouched. The button destroyed evidence of
+        the reviewer's intent and gained nothing.
+
+        It now does the only write this panel is allowed to make - mark the
+        reviewed class dismissed in its OWN local reviewer state - and says so.
+        SEMANTIC CHANGE, flagged for Don/Coda: the button keeps its label but
+        no longer moves files.
+        """
         reviewed = [it for it in self._all
                     if str(it.get("status", "")).lower() in ("reviewed", "claimed", "done")]
         if not reviewed:
             self._set_action("no reviewed items to archive", False)
             return
         n = len(reviewed)
-        confirm = tk.messagebox.askyesno(
+        confirm = messagebox.askyesno(
             "Archive reviewed",
-            f"Archive {n} reviewed handoff(s)?\n\nThis will move them to the _archive subfolder.")
+            f"Archive {n} reviewed handoff(s)?\n\n"
+            "This clears them from your review surface by writing\n"
+            "your own local reviewer state (queue_local.json).\n\n"
+            "It does NOT move or delete any record: the registry is\n"
+            "producer-owned and is left untouched.")
         if not confirm:
             return
-        archive_dir = Path(self.registry_path) / "_archive"
-        try:
-            archive_dir.mkdir(exist_ok=True)
-        except Exception as e:
-            self._set_action(f"could not create archive folder: {e}", False)
+        archived_ids = {str(it.get("id", "")) for it in reviewed if it.get("id")}
+        if not archived_ids:
+            self._set_action("reviewed records carry no id — nothing archived", False)
             return
-        archived_ids: set[str] = set()
-        for it in reviewed:
-            src = Path(it.get("file", ""))
-            if not src.exists():
-                continue
-            dst = archive_dir / src.name
-            try:
-                src.rename(dst)
-                archived_ids.add(it.get("id", ""))
-            except Exception as e:
-                self._set_action(f"failed to archive {src.name}: {e}", False)
-                return
-        if archived_ids:
-            self.dismissed |= archived_ids
-            save_dismissed(self.state_path, self.dismissed)
-        self._set_action(f"archived {len(archived_ids)} item(s)", True)
-        self.refresh()
+        before = set(self.dismissed)
+        self.dismissed |= archived_ids
+        if not save_dismissed(self.state_path, self.dismissed):
+            self.dismissed = before
+            self._set_action("could not write local state — archive not kept", False)
+            self._render()
+            return
+        self._set_action(
+            f"archived {len(archived_ids)} reviewed item(s) "
+            f"(local reviewer state only — registry untouched)", True)
+        self._render()
 
     def _clipboard(self, text: str):
         try:

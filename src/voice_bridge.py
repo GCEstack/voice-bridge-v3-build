@@ -1104,7 +1104,13 @@ class WakeWordBridge:
     def _build_ui(self):
         self.root = tk.Tk()
         self.root.title("VoiceBridge")
-        self.root.geometry("480x640")
+        # REPAIR 2026-10-02 (Nico): 480x640 -> 720x680. The handoff queue is the
+        # main content of this window and its seven columns need ~620px; at 480
+        # the right-hand columns were off-screen. Everything else in the layout
+        # is unchanged. minsize keeps the queue reachable if the window is
+        # dragged narrow (the tree also carries a horizontal scrollbar).
+        self.root.geometry("720x680")
+        self.root.minsize(560, 480)
         self.root.attributes("-topmost", True)
 
         ttk.Label(self.root, text="VoiceBridge", font=("Arial", 14)).pack(pady=(10, 2))
@@ -1132,6 +1138,8 @@ class WakeWordBridge:
             self.queue_panel = QueuePanel(self.root, self.config)
             self.queue_panel.pack(fill="both", expand=True, padx=8, pady=(2, 8))
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             ttk.Label(self.root, text=f"queue panel unavailable: {e}",
                       foreground="#b91c1c").pack(pady=4)
 
