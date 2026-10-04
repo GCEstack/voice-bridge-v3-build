@@ -1,0 +1,26 @@
+{
+  "schema": "gce.queue.archive_ledger",
+  "schema_version": "1.0",
+  "archived": {
+    "TEST-A-20261003-NICO-QUEUE-INGEST-001": {
+      "archived_at": "2026-10-03T23:34:43+00:00",
+      "reason": "don: controlled TEST B archive",
+      "subject": "TEST A - controlled completion to prove one ingest yields exactly one queue item",
+      "source": "Nico",
+      "artifact": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\tests\\fixtures\\TEST_A_result.md",
+      "archived_item": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\archive\\items\\TEST-A-20261003-NICO-QUEUE-INGEST-001-9cc52f4b.json"
+    },
+    "_by_content": {
+      "6a59fd5f257bfa3c": "TEST-A-20261003-NICO-QUEUE-INGEST-001",
+      "7420735fcaf05e98": "TEST-C-20261003-NICO-HANDOFF-002"
+    },
+    "TEST-C-20261003-NICO-HANDOFF-002": {
+      "archived_at": "2026-10-03T23:34:56+00:00",
+      "reason": "handoff created -> TEST-C-20261003-NICO-HANDOFF-002-4660d572.md",
+      "subject": "TEST C - controlled completion to prove handoff payload plus auto-archive",
+      "source": "Nico",
+      "artifact": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\tests\\fixtures\\TEST_C_result.md",
+      "archived_item": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\archive\\items\\TEST-C-20261003-NICO-HANDOFF-002-4660d572.json"
+    }
+  }
+}

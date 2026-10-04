@@ -1,0 +1,13 @@
+2026-10-03T23:33:19+00:00 ingest.ok id=TEST-A-20261003-NICO-QUEUE-INGEST-001 source=Nico state=completed path=C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\queue\TEST-A-20261003-NICO-QUEUE-INGEST-001-9cc52f4b.json
+2026-10-03T23:33:23+00:00 ingest.duplicate id=TEST-A-20261003-NICO-QUEUE-INGEST-001 reason=id already active
+2026-10-03T23:33:34+00:00 ingest.duplicate id=TOTALLY-DIFFERENT-ID-SAME-WORK-999 reason=same work already queued as TEST-A-20261003-NICO-QUEUE-INGEST-001
+2026-10-03T23:34:43+00:00 archive.ok id=TEST-A-20261003-NICO-QUEUE-INGEST-001 reason=don: controlled TEST B archive path=C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\archive\items\TEST-A-20261003-NICO-QUEUE-INGEST-001-9cc52f4b.json
+2026-10-03T23:34:52+00:00 ingest.ok id=TEST-C-20261003-NICO-HANDOFF-002 source=Nico state=completed path=C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\queue\TEST-C-20261003-NICO-HANDOFF-002-4660d572.json
+2026-10-03T23:34:56+00:00 handoff.payload_ok id=TEST-C-20261003-NICO-HANDOFF-002 payload=C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\archive\handoffs\TEST-C-20261003-NICO-HANDOFF-002-4660d572.md
+2026-10-03T23:34:56+00:00 archive.ok id=TEST-C-20261003-NICO-HANDOFF-002 reason=handoff created -> TEST-C-20261003-NICO-HANDOFF-002-4660d572.md path=C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\archive\items\TEST-C-20261003-NICO-HANDOFF-002-4660d572.json
+2026-10-03T23:35:09+00:00 ingest.duplicate id=TEST-C-20261003-NICO-HANDOFF-002 reason=archived TEST-C-20261003-NICO-HANDOFF-002
+2026-10-03T23:35:09+00:00 handoff.miss id=NO-SUCH-ID-999 location=absent
+2026-10-03T23:35:09+00:00 archive.miss id=TEST-A-20261003-NICO-QUEUE-INGEST-001 location=archived
+2026-10-03T23:42:06+00:00 ingest.duplicate id=TEST-C-20261003-NICO-HANDOFF-002 reason=archived TEST-C-20261003-NICO-HANDOFF-002
+2026-10-03T23:42:17+00:00 ingest.ok id=TEST-D-20261001-NICO-SURVIVAL-003 source=Nico state=partial path=C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\queue\TEST-D-20261001-NICO-SURVIVAL-003-16329488.json
+2026-10-04T16:03:18+00:00 ingest.ok id=TEST-E-20261004-NICO-LEGACY-ISOLATION-004 source=Nico state=completed path=C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\queue\TEST-E-20261004-NICO-LEGACY-ISOLATION-004-a5992371.json

@@ -511,7 +511,19 @@ def _screenshot() -> None:
 # Operator-seat launchers — one path each, shared by voice commands and the
 # main-window Cockpit button (voice_bridge reuses execute_command).
 COCKPIT_LAUNCHER = r"C:\Users\Dekan AI Brother\GCE_DON\cockpit\START-COCKPIT.cmd"
-HANDOFF_LAUNCHER = r"C:\Users\Dekan AI Brother\GCE_DON\03_HANDOFFS\handoff\START-HANDOFF.cmd"
+
+# DISCONNECTED 2026-10-03 (Nico, Don ruling for the queue plumbing reset).
+#   The voice phrases "handoff" / "start handoff" / "open handoff" / "new handoff"
+#   used to launch the superseded 03_HANDOFFS UI. That surface is now ARCHIVED
+#   and must never be reachable by voice again, so the launcher path and the
+#   command handler are both gone rather than pointed somewhere else.
+#   Replacement for the real need: the queue panel's HANDOFF button, which
+#   produces a payload from a queued result and archives the source.
+#   The archived copy: GCE_ARCHIVE\2026-10-03_LEGACY_ROUTING_HANDOFF_LEDGER_PRE_RESET\03_HANDOFFS
+HANDOFF_DISCONNECTED = (
+    "handoff is no longer a voice command. Use the VoiceBridge queue panel: "
+    "select an item and press HANDOFF."
+)
 
 # --- seat vocabulary: registry-driven, MODEL != SEAT (2026-09-25) -----------
 # Window-title matching must never resolve a MODEL, a retired seat or a HOLD
@@ -561,7 +573,13 @@ def _start_cockpit() -> None:
 
 
 def _start_handoff() -> None:
-    _launch_cmd(HANDOFF_LAUNCHER)
+    """DISCONNECTED 2026-10-03. Kept as a name so nothing raises NameError.
+
+    Saying "handoff" now reports the retirement instead of launching the
+    archived 03_HANDOFFS UI. It must never launch that surface again.
+    """
+    print(HANDOFF_DISCONNECTED)
+    return HANDOFF_DISCONNECTED
 
 
 def _log_delta(mode: str, original: str, result: str) -> None:

@@ -1,0 +1,498 @@
+2026-10-03 16:42:24 INFO    v3.capture | V3 capture engine live (persistence + health)
+2026-10-03 16:42:24 INFO    voicebridge | V3 engine live | transcripts=data/transcripts shadow=data/shadow-log
+2026-10-03 16:42:24 INFO    voicebridge | VoiceBridge start: continuous=True mic_device=1 sample_rate=16000 channels=1 supervisor_interval=2.0s
+2026-10-03 16:42:24 INFO    voicebridge | supervisor thread started
+2026-10-03 16:42:24 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: no capture
+2026-10-03 16:42:24 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 16:42:24 INFO    capture | AssemblyAI websocket connected
+2026-10-03 16:42:24 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 16:42:24 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 16:42:24 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 16:42:41 INFO    v3.capture | persisted transcript: fdea260a-4301-4f29-842a-216e7e7d329a (171 chars)
+2026-10-03 16:42:41 INFO    v3.interpretation | Shadow log written: fdea260a-4301-4f29-842a-216e7e7d329a (1 claims)
+2026-10-03 16:43:50 INFO    v3.capture | persisted transcript: 4641fb50-8ee3-4766-a49b-01b62d98d4b1 (63 chars)
+2026-10-03 16:43:50 INFO    v3.interpretation | Shadow log written: 4641fb50-8ee3-4766-a49b-01b62d98d4b1 (1 claims)
+2026-10-03 16:46:19 INFO    v3.capture | persisted transcript: 2c72e3de-5094-44f0-acb7-53af64d88b95 (37 chars)
+2026-10-03 16:46:19 INFO    v3.interpretation | Shadow log written: 2c72e3de-5094-44f0-acb7-53af64d88b95 (1 claims)
+2026-10-03 16:47:40 INFO    v3.capture | persisted transcript: 1304469a-5811-4ebf-88d1-5f64611b5b5c (64 chars)
+2026-10-03 16:47:40 INFO    v3.interpretation | Shadow log written: 1304469a-5811-4ebf-88d1-5f64611b5b5c (1 claims)
+2026-10-03 16:47:58 INFO    v3.capture | persisted transcript: 2e6ca925-dd37-4e82-a14a-7bd8d04ad910 (47 chars)
+2026-10-03 16:47:58 INFO    v3.interpretation | Shadow log written: 2e6ca925-dd37-4e82-a14a-7bd8d04ad910 (1 claims)
+2026-10-03 16:48:32 INFO    v3.capture | persisted transcript: 2a3a45db-cceb-479b-b267-562321fe882b (29 chars)
+2026-10-03 16:48:32 INFO    v3.interpretation | Shadow log written: 2a3a45db-cceb-479b-b267-562321fe882b (1 claims)
+2026-10-03 16:48:33 INFO    v3.capture | persisted transcript: 0d2db5f6-b7e4-4ea3-9f27-fd63444de599 (11 chars)
+2026-10-03 16:48:33 INFO    v3.interpretation | Shadow log written: 0d2db5f6-b7e4-4ea3-9f27-fd63444de599 (1 claims)
+2026-10-03 16:48:34 INFO    v3.capture | persisted transcript: 5c9ae450-8a51-4112-ac34-8137f4c6a6cb (15 chars)
+2026-10-03 16:48:34 INFO    v3.interpretation | Shadow log written: 5c9ae450-8a51-4112-ac34-8137f4c6a6cb (1 claims)
+2026-10-03 16:49:23 INFO    v3.capture | persisted transcript: 65f0c351-577e-4633-9a29-26c0ef70a8cc (63 chars)
+2026-10-03 16:49:23 INFO    v3.interpretation | Shadow log written: 65f0c351-577e-4633-9a29-26c0ef70a8cc (1 claims)
+2026-10-03 16:49:33 INFO    v3.capture | persisted transcript: 6a5ed1c3-867e-4c2b-b491-e476c5d59483 (124 chars)
+2026-10-03 16:49:33 INFO    v3.interpretation | Shadow log written: 6a5ed1c3-867e-4c2b-b491-e476c5d59483 (1 claims)
+2026-10-03 16:49:40 INFO    v3.capture | persisted transcript: 950ae739-3ded-4456-a302-9dae21149bda (142 chars)
+2026-10-03 16:49:40 INFO    v3.interpretation | Shadow log written: 950ae739-3ded-4456-a302-9dae21149bda (1 claims)
+2026-10-03 16:50:21 INFO    v3.capture | persisted transcript: c1f43349-0781-49bf-b6b9-8be6b2c475b8 (49 chars)
+2026-10-03 16:50:21 INFO    v3.interpretation | Shadow log written: c1f43349-0781-49bf-b6b9-8be6b2c475b8 (1 claims)
+2026-10-03 16:50:25 INFO    v3.capture | persisted transcript: 1759727d-e81c-4391-ba92-1d608755384f (38 chars)
+2026-10-03 16:50:25 INFO    v3.interpretation | Shadow log written: 1759727d-e81c-4391-ba92-1d608755384f (1 claims)
+2026-10-03 16:50:43 INFO    v3.capture | persisted transcript: 77fad5d7-7acc-43db-ae57-6c19464c5483 (135 chars)
+2026-10-03 16:50:43 INFO    v3.interpretation | Shadow log written: 77fad5d7-7acc-43db-ae57-6c19464c5483 (1 claims)
+2026-10-03 16:50:46 INFO    v3.capture | persisted transcript: 3b7513cf-c438-45e6-9402-3414d88a2392 (25 chars)
+2026-10-03 16:50:46 INFO    v3.interpretation | Shadow log written: 3b7513cf-c438-45e6-9402-3414d88a2392 (1 claims)
+2026-10-03 16:51:16 INFO    v3.capture | persisted transcript: 98a62824-4bb4-4715-8864-1eee2017b68e (78 chars)
+2026-10-03 16:51:16 INFO    v3.interpretation | Shadow log written: 98a62824-4bb4-4715-8864-1eee2017b68e (1 claims)
+2026-10-03 16:51:31 INFO    v3.capture | persisted transcript: 378b43bc-e497-4d4c-8efc-e124da1b58a8 (54 chars)
+2026-10-03 16:51:31 INFO    v3.interpretation | Shadow log written: 378b43bc-e497-4d4c-8efc-e124da1b58a8 (1 claims)
+2026-10-03 16:51:33 INFO    v3.capture | persisted transcript: f995467b-2f38-476a-964f-dd7f3d1e4f62 (18 chars)
+2026-10-03 16:51:33 INFO    v3.interpretation | Shadow log written: f995467b-2f38-476a-964f-dd7f3d1e4f62 (1 claims)
+2026-10-03 16:51:34 INFO    v3.capture | persisted transcript: 7010c0d9-1a2e-4ba8-bf47-c5d248f62de2 (10 chars)
+2026-10-03 16:51:34 INFO    v3.interpretation | Shadow log written: 7010c0d9-1a2e-4ba8-bf47-c5d248f62de2 (1 claims)
+2026-10-03 16:51:37 INFO    v3.capture | persisted transcript: f0fc4a5b-5daf-47a3-bb41-26ff36caa999 (37 chars)
+2026-10-03 16:51:37 INFO    v3.interpretation | Shadow log written: f0fc4a5b-5daf-47a3-bb41-26ff36caa999 (1 claims)
+2026-10-03 16:51:46 INFO    v3.capture | persisted transcript: d4a8adea-d185-4b7d-8af8-8d7bb9bcb265 (131 chars)
+2026-10-03 16:51:46 INFO    v3.interpretation | Shadow log written: d4a8adea-d185-4b7d-8af8-8d7bb9bcb265 (1 claims)
+2026-10-03 16:51:50 INFO    v3.capture | persisted transcript: 6bdb8f8b-490f-496e-8e3f-83c29e08bdb5 (34 chars)
+2026-10-03 16:51:50 INFO    v3.interpretation | Shadow log written: 6bdb8f8b-490f-496e-8e3f-83c29e08bdb5 (1 claims)
+2026-10-03 16:51:53 INFO    v3.capture | persisted transcript: 59276b9a-d0b9-4870-8ce2-f843e616ffd4 (34 chars)
+2026-10-03 16:51:53 INFO    v3.interpretation | Shadow log written: 59276b9a-d0b9-4870-8ce2-f843e616ffd4 (1 claims)
+2026-10-03 17:03:02 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 17:03:03 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 17:03:03 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 17:03:04 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 17:03:04 INFO    capture | Capture stopped
+2026-10-03 17:03:04 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 17:03:04 INFO    capture | AssemblyAI websocket connected
+2026-10-03 17:03:04 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 17:03:04 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 17:03:04 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 17:03:17 INFO    v3.capture | persisted transcript: c2fe3bab-7229-492d-a8ac-1a019e4f1357 (52 chars)
+2026-10-03 17:03:17 INFO    v3.interpretation | Shadow log written: c2fe3bab-7229-492d-a8ac-1a019e4f1357 (1 claims)
+2026-10-03 17:03:20 INFO    v3.capture | persisted transcript: 9c5b82d7-cdce-4fc4-9f9a-311ddbd565f5 (21 chars)
+2026-10-03 17:03:20 INFO    v3.interpretation | Shadow log written: 9c5b82d7-cdce-4fc4-9f9a-311ddbd565f5 (1 claims)
+2026-10-03 17:04:52 INFO    v3.capture | persisted transcript: df89326f-4bc9-4991-a693-571a2a7e8ba5 (127 chars)
+2026-10-03 17:04:52 INFO    v3.interpretation | Shadow log written: df89326f-4bc9-4991-a693-571a2a7e8ba5 (1 claims)
+2026-10-03 17:05:17 INFO    v3.capture | persisted transcript: 313beb97-2466-4d12-8e76-c906c7b446a6 (70 chars)
+2026-10-03 17:05:17 INFO    v3.interpretation | Shadow log written: 313beb97-2466-4d12-8e76-c906c7b446a6 (1 claims)
+2026-10-03 17:10:23 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 17:10:24 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 17:10:24 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 17:10:25 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 17:10:25 INFO    capture | Capture stopped
+2026-10-03 17:10:25 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 17:10:25 INFO    capture | AssemblyAI websocket connected
+2026-10-03 17:10:25 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 17:10:25 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 17:10:25 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 17:10:30 INFO    v3.capture | persisted transcript: 65b40123-51a4-48f0-88fc-7a4e50dc9634 (39 chars)
+2026-10-03 17:10:30 INFO    v3.interpretation | Shadow log written: 65b40123-51a4-48f0-88fc-7a4e50dc9634 (1 claims)
+2026-10-03 17:10:34 INFO    v3.capture | persisted transcript: 3a5ecff7-a729-436c-ba56-0628315a0f75 (29 chars)
+2026-10-03 17:10:34 INFO    v3.interpretation | Shadow log written: 3a5ecff7-a729-436c-ba56-0628315a0f75 (1 claims)
+2026-10-03 17:10:39 INFO    v3.capture | persisted transcript: b36e9101-668f-498b-b69e-ee9cdc69362d (74 chars)
+2026-10-03 17:10:39 INFO    v3.interpretation | Shadow log written: b36e9101-668f-498b-b69e-ee9cdc69362d (1 claims)
+2026-10-03 17:10:42 INFO    v3.capture | persisted transcript: 015e49f9-788e-4735-b021-7c3f9b9410c1 (21 chars)
+2026-10-03 17:10:42 INFO    v3.interpretation | Shadow log written: 015e49f9-788e-4735-b021-7c3f9b9410c1 (1 claims)
+2026-10-03 17:10:55 INFO    v3.capture | persisted transcript: 2b9d7415-2939-4985-97da-fe77830f8c46 (190 chars)
+2026-10-03 17:10:55 INFO    v3.interpretation | Shadow log written: 2b9d7415-2939-4985-97da-fe77830f8c46 (1 claims)
+2026-10-03 17:13:33 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 17:13:34 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 17:13:34 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 17:13:35 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 17:13:35 INFO    capture | Capture stopped
+2026-10-03 17:13:35 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 17:13:35 INFO    capture | AssemblyAI websocket connected
+2026-10-03 17:13:35 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 17:13:35 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 17:13:35 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 17:14:19 INFO    v3.capture | persisted transcript: 1899659c-fdab-42f4-8566-f8433f346ea4 (59 chars)
+2026-10-03 17:14:19 INFO    v3.interpretation | Shadow log written: 1899659c-fdab-42f4-8566-f8433f346ea4 (1 claims)
+2026-10-03 17:14:29 INFO    v3.capture | persisted transcript: 0559ce60-882d-4225-bd4a-607d0e9c27de (93 chars)
+2026-10-03 17:14:29 INFO    v3.interpretation | Shadow log written: 0559ce60-882d-4225-bd4a-607d0e9c27de (1 claims)
+2026-10-03 17:14:57 INFO    v3.capture | persisted transcript: ca52c223-d688-449e-b131-78c30d31be7e (24 chars)
+2026-10-03 17:14:58 INFO    v3.interpretation | Shadow log written: ca52c223-d688-449e-b131-78c30d31be7e (1 claims)
+2026-10-03 17:17:59 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 17:18:01 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 17:18:01 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 17:18:01 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 17:18:01 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 17:18:01 INFO    capture | AssemblyAI websocket connected
+2026-10-03 17:18:01 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 17:18:01 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 17:18:01 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 17:18:44 INFO    v3.capture | persisted transcript: a1327cdd-31ce-472e-9233-1ddb9cd2af19 (28 chars)
+2026-10-03 17:18:44 INFO    v3.interpretation | Shadow log written: a1327cdd-31ce-472e-9233-1ddb9cd2af19 (1 claims)
+2026-10-03 17:19:14 INFO    v3.capture | persisted transcript: 41d17812-fe29-4a6c-bc12-6fa8961c042f (4 chars)
+2026-10-03 17:19:14 INFO    v3.interpretation | Shadow log written: 41d17812-fe29-4a6c-bc12-6fa8961c042f (1 claims)
+2026-10-03 17:19:19 INFO    v3.capture | persisted transcript: 23dfc3af-1467-4f6a-9b64-a1d1b403a681 (53 chars)
+2026-10-03 17:19:19 INFO    v3.interpretation | Shadow log written: 23dfc3af-1467-4f6a-9b64-a1d1b403a681 (1 claims)
+2026-10-03 17:19:24 INFO    v3.capture | persisted transcript: 2b59ef95-226f-4f0f-9b6c-4897391b88d0 (42 chars)
+2026-10-03 17:19:24 INFO    v3.interpretation | Shadow log written: 2b59ef95-226f-4f0f-9b6c-4897391b88d0 (1 claims)
+2026-10-03 17:20:20 INFO    v3.capture | persisted transcript: 2f639da5-75b9-4886-86e1-34d9d5fe4c1f (118 chars)
+2026-10-03 17:20:20 INFO    v3.interpretation | Shadow log written: 2f639da5-75b9-4886-86e1-34d9d5fe4c1f (1 claims)
+2026-10-03 17:20:30 INFO    v3.capture | persisted transcript: 3a732bdb-fdd4-4192-b8c4-6d6d48dcdfb6 (126 chars)
+2026-10-03 17:20:30 INFO    v3.interpretation | Shadow log written: 3a732bdb-fdd4-4192-b8c4-6d6d48dcdfb6 (1 claims)
+2026-10-03 17:20:34 INFO    v3.capture | persisted transcript: 4a4b9c27-f782-48c5-89f1-9f5f8d1bbc86 (66 chars)
+2026-10-03 17:20:34 INFO    v3.interpretation | Shadow log written: 4a4b9c27-f782-48c5-89f1-9f5f8d1bbc86 (1 claims)
+2026-10-03 17:20:36 INFO    v3.capture | persisted transcript: e46577cb-4b36-4904-9d62-4010c0f95e8a (29 chars)
+2026-10-03 17:20:36 INFO    v3.interpretation | Shadow log written: e46577cb-4b36-4904-9d62-4010c0f95e8a (1 claims)
+2026-10-03 17:20:55 INFO    v3.capture | persisted transcript: 74e4551f-407c-4144-8829-96e269a7926c (75 chars)
+2026-10-03 17:20:55 INFO    v3.interpretation | Shadow log written: 74e4551f-407c-4144-8829-96e269a7926c (1 claims)
+2026-10-03 17:21:20 INFO    v3.capture | persisted transcript: 0b63bff9-acba-42fc-b470-7f5993e3ed55 (169 chars)
+2026-10-03 17:21:20 INFO    v3.interpretation | Shadow log written: 0b63bff9-acba-42fc-b470-7f5993e3ed55 (1 claims)
+2026-10-03 17:23:09 INFO    v3.capture | persisted transcript: a428da87-44ce-45a3-bdb3-a4810b3098c3 (5 chars)
+2026-10-03 17:23:09 INFO    v3.interpretation | Shadow log written: a428da87-44ce-45a3-bdb3-a4810b3098c3 (1 claims)
+2026-10-03 17:23:28 INFO    v3.capture | persisted transcript: c1e5a86c-23a2-4fdb-9d5d-aab983dbe6f2 (239 chars)
+2026-10-03 17:23:28 INFO    v3.interpretation | Shadow log written: c1e5a86c-23a2-4fdb-9d5d-aab983dbe6f2 (8 claims)
+2026-10-03 17:23:43 INFO    v3.capture | persisted transcript: e01fe03a-2332-47b3-b280-d315ad14a0d2 (21 chars)
+2026-10-03 17:23:43 INFO    v3.interpretation | Shadow log written: e01fe03a-2332-47b3-b280-d315ad14a0d2 (1 claims)
+2026-10-03 17:29:08 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 17:29:09 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 17:29:10 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 17:29:10 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 17:29:10 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 17:29:10 INFO    capture | AssemblyAI websocket connected
+2026-10-03 17:29:10 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 17:29:10 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 17:29:10 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 17:31:02 INFO    v3.capture | persisted transcript: b2201273-e7fa-4a1f-9886-2b71b29f4c82 (30 chars)
+2026-10-03 17:31:02 INFO    v3.interpretation | Shadow log written: b2201273-e7fa-4a1f-9886-2b71b29f4c82 (1 claims)
+2026-10-03 17:31:33 INFO    v3.capture | persisted transcript: 3a85464e-6956-447c-9bac-ccc2af943ba9 (5 chars)
+2026-10-03 17:31:33 INFO    v3.interpretation | Shadow log written: 3a85464e-6956-447c-9bac-ccc2af943ba9 (1 claims)
+2026-10-03 17:31:37 INFO    v3.capture | persisted transcript: 6782315a-3610-4a98-bbd6-79df93f2a114 (16 chars)
+2026-10-03 17:31:37 INFO    v3.interpretation | Shadow log written: 6782315a-3610-4a98-bbd6-79df93f2a114 (1 claims)
+2026-10-03 17:31:40 INFO    v3.capture | persisted transcript: 9e5df6d7-22f6-474e-93ec-6527678e27c6 (32 chars)
+2026-10-03 17:31:40 INFO    v3.interpretation | Shadow log written: 9e5df6d7-22f6-474e-93ec-6527678e27c6 (1 claims)
+2026-10-03 17:31:45 INFO    v3.capture | persisted transcript: 57867c00-416c-49a3-b82f-116fef23b579 (75 chars)
+2026-10-03 17:31:45 INFO    v3.interpretation | Shadow log written: 57867c00-416c-49a3-b82f-116fef23b579 (1 claims)
+2026-10-03 17:32:03 INFO    v3.capture | persisted transcript: 1ea996d3-d924-4117-a0ae-2db95d5fc15c (12 chars)
+2026-10-03 17:32:03 INFO    v3.interpretation | Shadow log written: 1ea996d3-d924-4117-a0ae-2db95d5fc15c (1 claims)
+2026-10-03 17:32:05 INFO    v3.capture | persisted transcript: 7d66f494-2ceb-4ca1-a11d-21855356f2dd (19 chars)
+2026-10-03 17:32:05 INFO    v3.interpretation | Shadow log written: 7d66f494-2ceb-4ca1-a11d-21855356f2dd (1 claims)
+2026-10-03 17:32:09 INFO    v3.capture | persisted transcript: e90f34c0-2cb4-480a-beb5-dae3ff75274c (75 chars)
+2026-10-03 17:32:09 INFO    v3.interpretation | Shadow log written: e90f34c0-2cb4-480a-beb5-dae3ff75274c (1 claims)
+2026-10-03 17:32:14 INFO    v3.capture | persisted transcript: 3abb4b67-6277-47d0-99d1-a3958562f4a6 (104 chars)
+2026-10-03 17:32:14 INFO    v3.interpretation | Shadow log written: 3abb4b67-6277-47d0-99d1-a3958562f4a6 (1 claims)
+2026-10-03 17:32:23 INFO    v3.capture | persisted transcript: 04369198-1a29-412d-b115-53ba92eb4419 (151 chars)
+2026-10-03 17:32:23 INFO    v3.interpretation | Shadow log written: 04369198-1a29-412d-b115-53ba92eb4419 (1 claims)
+2026-10-03 17:32:53 INFO    v3.capture | persisted transcript: 2f36d343-17b0-4fe2-b78c-67d3af81cb27 (61 chars)
+2026-10-03 17:32:53 INFO    v3.interpretation | Shadow log written: 2f36d343-17b0-4fe2-b78c-67d3af81cb27 (1 claims)
+2026-10-03 17:32:56 INFO    v3.capture | persisted transcript: fb4aa92c-50a1-456a-8d29-bceca6284a23 (64 chars)
+2026-10-03 17:32:56 INFO    v3.interpretation | Shadow log written: fb4aa92c-50a1-456a-8d29-bceca6284a23 (1 claims)
+2026-10-03 17:33:04 INFO    v3.capture | persisted transcript: 635dfd3d-6235-4737-b02e-557d344b3404 (19 chars)
+2026-10-03 17:33:04 INFO    v3.interpretation | Shadow log written: 635dfd3d-6235-4737-b02e-557d344b3404 (1 claims)
+2026-10-03 17:33:22 INFO    v3.capture | persisted transcript: ae4c6689-1e0a-45e0-bd63-3995ee51531d (260 chars)
+2026-10-03 17:33:22 INFO    v3.interpretation | Shadow log written: ae4c6689-1e0a-45e0-bd63-3995ee51531d (7 claims)
+2026-10-03 17:33:24 INFO    v3.capture | persisted transcript: a512e7fa-3a29-49bc-bb0f-840766222057 (31 chars)
+2026-10-03 17:33:24 INFO    v3.interpretation | Shadow log written: a512e7fa-3a29-49bc-bb0f-840766222057 (1 claims)
+2026-10-03 17:33:30 INFO    v3.capture | persisted transcript: 2c87c990-96a4-4c62-9ae9-63d1f81f7b12 (100 chars)
+2026-10-03 17:33:30 INFO    v3.interpretation | Shadow log written: 2c87c990-96a4-4c62-9ae9-63d1f81f7b12 (1 claims)
+2026-10-03 17:33:57 INFO    v3.capture | persisted transcript: 2b8f66bc-6cdb-4913-8838-c11f9053827e (164 chars)
+2026-10-03 17:33:57 INFO    v3.interpretation | Shadow log written: 2b8f66bc-6cdb-4913-8838-c11f9053827e (1 claims)
+2026-10-03 17:34:32 INFO    v3.capture | persisted transcript: f0e769a1-4a5d-436d-9f22-4bc33252d72e (135 chars)
+2026-10-03 17:34:32 INFO    v3.interpretation | Shadow log written: f0e769a1-4a5d-436d-9f22-4bc33252d72e (1 claims)
+2026-10-03 17:34:34 INFO    v3.capture | persisted transcript: f7ac2563-2d54-41e6-91b2-b302b2d2a29d (16 chars)
+2026-10-03 17:34:34 INFO    v3.interpretation | Shadow log written: f7ac2563-2d54-41e6-91b2-b302b2d2a29d (1 claims)
+2026-10-03 17:34:52 INFO    v3.capture | persisted transcript: 4cacac48-b3cd-4243-973a-287e0748ac95 (149 chars)
+2026-10-03 17:34:52 INFO    v3.interpretation | Shadow log written: 4cacac48-b3cd-4243-973a-287e0748ac95 (1 claims)
+2026-10-03 17:34:54 INFO    v3.capture | persisted transcript: c352d191-646c-4621-a254-5f995714f34b (22 chars)
+2026-10-03 17:34:54 INFO    v3.interpretation | Shadow log written: c352d191-646c-4621-a254-5f995714f34b (1 claims)
+2026-10-03 17:34:55 INFO    v3.capture | persisted transcript: a74428df-757a-472e-98d5-9e901bcfc84b (11 chars)
+2026-10-03 17:34:55 INFO    v3.interpretation | Shadow log written: a74428df-757a-472e-98d5-9e901bcfc84b (1 claims)
+2026-10-03 17:35:16 INFO    v3.capture | persisted transcript: d56a0add-52d7-4a24-8278-19af8971f041 (70 chars)
+2026-10-03 17:35:16 INFO    v3.interpretation | Shadow log written: d56a0add-52d7-4a24-8278-19af8971f041 (1 claims)
+2026-10-03 17:35:18 INFO    v3.capture | persisted transcript: 54e48991-c40f-4fd4-84cd-50190df13bf0 (28 chars)
+2026-10-03 17:35:18 INFO    v3.interpretation | Shadow log written: 54e48991-c40f-4fd4-84cd-50190df13bf0 (1 claims)
+2026-10-03 17:35:24 INFO    v3.capture | persisted transcript: b28c025c-dc2b-48c6-8add-46250df40345 (70 chars)
+2026-10-03 17:35:24 INFO    v3.interpretation | Shadow log written: b28c025c-dc2b-48c6-8add-46250df40345 (1 claims)
+2026-10-03 17:35:54 INFO    v3.capture | persisted transcript: 29a16c7a-c44d-4d83-ac2d-01b5f86c8bbc (31 chars)
+2026-10-03 17:35:54 INFO    v3.interpretation | Shadow log written: 29a16c7a-c44d-4d83-ac2d-01b5f86c8bbc (1 claims)
+2026-10-03 17:36:12 INFO    v3.capture | persisted transcript: dba919e4-37e3-4337-8ec7-c73360bd6652 (34 chars)
+2026-10-03 17:36:12 INFO    v3.interpretation | Shadow log written: dba919e4-37e3-4337-8ec7-c73360bd6652 (1 claims)
+2026-10-03 17:36:18 INFO    v3.capture | persisted transcript: 34fc34bf-a801-44fb-9561-f7375a0d36da (8 chars)
+2026-10-03 17:36:18 INFO    v3.interpretation | Shadow log written: 34fc34bf-a801-44fb-9561-f7375a0d36da (1 claims)
+2026-10-03 17:36:43 INFO    v3.capture | persisted transcript: de4cb6e3-daab-443b-b1fd-84204d7b6edd (97 chars)
+2026-10-03 17:36:43 INFO    v3.interpretation | Shadow log written: de4cb6e3-daab-443b-b1fd-84204d7b6edd (1 claims)
+2026-10-03 17:36:49 INFO    v3.capture | persisted transcript: 2e86fd82-6a66-4d82-939e-ff5df564c32f (16 chars)
+2026-10-03 17:36:49 INFO    v3.interpretation | Shadow log written: 2e86fd82-6a66-4d82-939e-ff5df564c32f (1 claims)
+2026-10-03 17:37:34 INFO    v3.capture | persisted transcript: 44d4d39e-f292-4af2-ada0-f2306d03c9ff (41 chars)
+2026-10-03 17:37:34 INFO    v3.interpretation | Shadow log written: 44d4d39e-f292-4af2-ada0-f2306d03c9ff (1 claims)
+2026-10-03 17:38:04 INFO    v3.capture | persisted transcript: 625a7936-c247-40e7-8138-9f78526e12ed (8 chars)
+2026-10-03 17:38:04 INFO    v3.interpretation | Shadow log written: 625a7936-c247-40e7-8138-9f78526e12ed (1 claims)
+2026-10-03 17:38:26 INFO    v3.capture | persisted transcript: e7773e3b-ba90-4547-9f5b-53be460f97ea (172 chars)
+2026-10-03 17:38:26 INFO    v3.interpretation | Shadow log written: e7773e3b-ba90-4547-9f5b-53be460f97ea (1 claims)
+2026-10-03 17:38:31 INFO    v3.capture | persisted transcript: 95c4d8d6-cb0e-4bf1-9f71-41db9cb5ba91 (43 chars)
+2026-10-03 17:38:31 INFO    v3.interpretation | Shadow log written: 95c4d8d6-cb0e-4bf1-9f71-41db9cb5ba91 (1 claims)
+2026-10-03 17:39:12 INFO    v3.capture | persisted transcript: 3ff3f05d-5cf9-4d2d-87ba-cf78dc1f1627 (5 chars)
+2026-10-03 17:39:12 INFO    v3.interpretation | Shadow log written: 3ff3f05d-5cf9-4d2d-87ba-cf78dc1f1627 (1 claims)
+2026-10-03 17:39:14 INFO    v3.capture | persisted transcript: 3eca819e-921d-4eba-aa17-c36742b6eefa (19 chars)
+2026-10-03 17:39:14 INFO    v3.interpretation | Shadow log written: 3eca819e-921d-4eba-aa17-c36742b6eefa (1 claims)
+2026-10-03 17:39:20 INFO    v3.capture | persisted transcript: c9cac801-a2a8-47eb-872e-a3a445eeec89 (57 chars)
+2026-10-03 17:39:20 INFO    v3.interpretation | Shadow log written: c9cac801-a2a8-47eb-872e-a3a445eeec89 (1 claims)
+2026-10-03 17:39:25 INFO    v3.capture | persisted transcript: c78a50ac-25e8-47e4-97f6-392d0aa0fc5b (76 chars)
+2026-10-03 17:39:25 INFO    v3.interpretation | Shadow log written: c78a50ac-25e8-47e4-97f6-392d0aa0fc5b (1 claims)
+2026-10-03 17:39:33 INFO    v3.capture | persisted transcript: 6cdc7a5b-e18a-4aa0-9dd6-79c402c914a2 (100 chars)
+2026-10-03 17:39:33 INFO    v3.interpretation | Shadow log written: 6cdc7a5b-e18a-4aa0-9dd6-79c402c914a2 (1 claims)
+2026-10-03 17:43:10 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 17:43:10 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 17:43:10 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 17:43:11 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 17:43:11 INFO    capture | Capture stopped
+2026-10-03 17:43:11 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 17:43:12 INFO    capture | AssemblyAI websocket connected
+2026-10-03 17:43:12 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 17:43:12 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 17:43:12 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 17:43:52 INFO    v3.capture | persisted transcript: 1d4e78b4-1391-4245-8b85-df03edd213e1 (17 chars)
+2026-10-03 17:43:52 INFO    v3.interpretation | Shadow log written: 1d4e78b4-1391-4245-8b85-df03edd213e1 (1 claims)
+2026-10-03 17:43:57 INFO    v3.capture | persisted transcript: 40532b6b-8b2c-42b9-a4b2-4e4a84c923c0 (24 chars)
+2026-10-03 17:43:57 INFO    v3.interpretation | Shadow log written: 40532b6b-8b2c-42b9-a4b2-4e4a84c923c0 (1 claims)
+2026-10-03 17:44:29 INFO    v3.capture | persisted transcript: aceaacf6-908b-4142-9254-1c84676c6bed (19 chars)
+2026-10-03 17:44:29 INFO    v3.interpretation | Shadow log written: aceaacf6-908b-4142-9254-1c84676c6bed (1 claims)
+2026-10-03 17:46:21 INFO    v3.capture | persisted transcript: b90e831b-2824-49cb-b956-7efb4d39328f (11 chars)
+2026-10-03 17:46:21 INFO    v3.interpretation | Shadow log written: b90e831b-2824-49cb-b956-7efb4d39328f (1 claims)
+2026-10-03 17:46:26 INFO    v3.capture | persisted transcript: ad893359-c817-4a7c-877b-5bb79c2a9b9f (105 chars)
+2026-10-03 17:46:26 INFO    v3.interpretation | Shadow log written: ad893359-c817-4a7c-877b-5bb79c2a9b9f (1 claims)
+2026-10-03 17:49:00 INFO    v3.capture | persisted transcript: 009c0009-f1cb-4efe-9b12-37d0a9ae3bf9 (22 chars)
+2026-10-03 17:49:00 INFO    v3.interpretation | Shadow log written: 009c0009-f1cb-4efe-9b12-37d0a9ae3bf9 (1 claims)
+2026-10-03 17:49:15 INFO    v3.capture | persisted transcript: e861c903-bb41-40b6-b85f-7a042b78f36b (69 chars)
+2026-10-03 17:49:15 INFO    v3.interpretation | Shadow log written: e861c903-bb41-40b6-b85f-7a042b78f36b (1 claims)
+2026-10-03 17:49:22 INFO    v3.capture | persisted transcript: 8e4feb8f-2ed7-4655-8e72-ff018ff1fa23 (80 chars)
+2026-10-03 17:49:22 INFO    v3.interpretation | Shadow log written: 8e4feb8f-2ed7-4655-8e72-ff018ff1fa23 (1 claims)
+2026-10-03 18:12:22 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 18:12:22 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 18:12:22 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 18:12:23 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 18:12:23 INFO    capture | Capture stopped
+2026-10-03 18:12:23 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 18:12:24 INFO    capture | AssemblyAI websocket connected
+2026-10-03 18:12:24 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 18:12:24 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 18:12:24 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 18:15:11 INFO    v3.capture | persisted transcript: 46fdfafa-24c2-43a9-addd-7eaac05b9662 (4 chars)
+2026-10-03 18:15:11 INFO    v3.interpretation | Shadow log written: 46fdfafa-24c2-43a9-addd-7eaac05b9662 (1 claims)
+2026-10-03 18:15:19 INFO    v3.capture | persisted transcript: fe92598e-8362-4c38-b164-4889482d2a51 (60 chars)
+2026-10-03 18:15:19 INFO    v3.interpretation | Shadow log written: fe92598e-8362-4c38-b164-4889482d2a51 (1 claims)
+2026-10-03 18:15:25 INFO    v3.capture | persisted transcript: 7518cd48-d8a9-41d4-aa0d-8096f93b02ed (21 chars)
+2026-10-03 18:15:25 INFO    v3.interpretation | Shadow log written: 7518cd48-d8a9-41d4-aa0d-8096f93b02ed (1 claims)
+2026-10-03 18:29:38 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 18:29:38 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 18:29:38 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 18:29:39 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 18:29:39 INFO    capture | Capture stopped
+2026-10-03 18:29:39 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 18:29:40 INFO    capture | AssemblyAI websocket connected
+2026-10-03 18:29:40 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 18:29:40 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 18:29:40 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 18:31:57 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 18:31:58 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 18:31:58 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 18:31:59 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 18:31:59 INFO    capture | Capture stopped
+2026-10-03 18:31:59 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 18:31:59 INFO    capture | AssemblyAI websocket connected
+2026-10-03 18:31:59 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 18:31:59 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 18:31:59 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 18:36:07 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 18:36:09 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 18:36:09 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 18:36:09 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 18:36:09 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 18:36:10 INFO    capture | AssemblyAI websocket connected
+2026-10-03 18:36:10 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 18:36:10 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 18:36:10 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 18:41:58 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 18:41:58 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 18:41:58 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 18:41:59 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 18:41:59 INFO    capture | Capture stopped
+2026-10-03 18:41:59 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 18:42:00 INFO    capture | AssemblyAI websocket connected
+2026-10-03 18:42:00 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 18:42:00 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 18:42:00 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 19:22:02 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 19:22:02 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 19:22:02 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 19:22:03 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 19:22:03 INFO    capture | Capture stopped
+2026-10-03 19:22:03 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 19:22:04 INFO    capture | AssemblyAI websocket connected
+2026-10-03 19:22:04 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 19:22:04 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 19:22:04 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 19:24:37 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 19:24:38 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 19:24:38 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 19:24:39 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 19:24:39 INFO    capture | Capture stopped
+2026-10-03 19:24:39 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 19:24:39 INFO    capture | AssemblyAI websocket connected
+2026-10-03 19:24:39 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 19:24:39 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 19:24:39 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 19:39:05 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 19:39:05 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 19:39:05 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 19:39:06 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 19:39:06 INFO    capture | Capture stopped
+2026-10-03 19:39:06 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 19:39:07 INFO    capture | AssemblyAI websocket connected
+2026-10-03 19:39:07 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 19:39:07 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 19:39:07 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 20:06:37 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 20:06:37 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 20:06:37 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 20:06:38 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 20:06:38 INFO    capture | Capture stopped
+2026-10-03 20:06:38 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 20:06:39 INFO    capture | AssemblyAI websocket connected
+2026-10-03 20:06:39 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 20:06:39 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 20:06:39 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 20:27:09 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 20:27:11 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 20:27:11 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 20:27:11 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 20:27:11 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 20:27:11 INFO    capture | AssemblyAI websocket connected
+2026-10-03 20:27:11 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 20:27:11 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 20:27:11 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 20:36:45 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 20:36:46 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 20:36:46 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 20:36:47 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 20:36:47 INFO    capture | Capture stopped
+2026-10-03 20:36:47 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 20:36:47 INFO    capture | AssemblyAI websocket connected
+2026-10-03 20:36:47 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 20:36:47 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 20:36:47 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 23:47:27 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 23:47:27 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 23:47:27 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 23:47:29 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 23:47:29 INFO    capture | Capture stopped
+2026-10-03 23:47:29 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 23:47:29 INFO    capture | AssemblyAI websocket connected
+2026-10-03 23:47:29 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 23:47:29 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 23:47:29 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-03 23:52:57 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-03 23:52:57 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-03 23:52:57 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-03 23:52:58 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-03 23:52:58 INFO    capture | Capture stopped
+2026-10-03 23:52:58 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-03 23:52:59 INFO    capture | AssemblyAI websocket connected
+2026-10-03 23:52:59 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-03 23:52:59 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-03 23:52:59 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-04 00:32:43 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-04 00:32:43 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-04 00:32:43 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-04 00:32:45 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-04 00:32:45 INFO    capture | Capture stopped
+2026-10-04 00:32:45 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 00:32:45 INFO    capture | AssemblyAI websocket connected
+2026-10-04 00:32:45 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-04 00:32:45 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-04 00:32:45 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-04 01:07:37 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-04 01:07:38 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-04 01:07:38 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-04 01:07:39 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-04 01:07:39 INFO    capture | Capture stopped
+2026-10-04 01:07:39 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 01:07:39 INFO    capture | AssemblyAI websocket connected
+2026-10-04 01:07:39 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-04 01:07:39 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-04 01:07:39 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-04 01:15:05 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-04 01:15:07 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-04 01:15:07 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-04 01:15:07 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-04 01:15:07 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 01:15:07 INFO    capture | AssemblyAI websocket connected
+2026-10-04 01:15:07 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-04 01:15:07 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-04 01:15:07 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-04 02:48:10 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-04 02:48:11 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-04 02:48:11 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-04 02:48:12 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-04 02:48:12 INFO    capture | Capture stopped
+2026-10-04 02:48:12 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 02:48:12 INFO    capture | AssemblyAI websocket connected
+2026-10-04 02:48:12 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-04 02:48:12 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-04 02:48:12 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-04 03:43:42 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-04 03:43:44 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-04 03:43:44 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-04 03:43:44 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-04 03:43:44 INFO    capture | Capture stopped
+2026-10-04 03:43:44 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 03:43:44 INFO    capture | AssemblyAI websocket connected
+2026-10-04 03:43:44 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-04 03:43:44 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-04 03:43:44 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-04 06:43:42 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: no audio for 10796.8s (device lost?)
+2026-10-04 06:43:42 WARNING voicebridge | capture unhealthy — recovery attempt | reason=no audio for 10796.8s (device lost?)
+2026-10-04 06:43:42 INFO    capture | AssemblyAI WS closed (finishing): no close frame received or sent
+2026-10-04 06:43:43 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-04 06:43:43 INFO    capture | Capture stopped
+2026-10-04 06:43:43 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 06:43:43 ERROR   capture | WS connect failed: [Errno 11001] getaddrinfo failed
+2026-10-04 06:43:43 ERROR   voicebridge | recovery failed: capture start error
+Traceback (most recent call last):
+  File "C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\src\voice_bridge.py", line 1051, in _supervisor
+    cap.start()
+    ~~~~~~~~~^^
+  File "C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\src\capture.py", line 870, in start
+    raise self._connect_error
+ConnectionError: AssemblyAI WS connect failed: [Errno 11001] getaddrinfo failed
+2026-10-04 06:43:47 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 06:43:48 INFO    capture | AssemblyAI websocket connected
+2026-10-04 06:43:48 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-04 06:43:48 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-04 06:43:48 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-04 08:54:16 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: no audio for 7831.9s (device lost?)
+2026-10-04 08:54:16 WARNING voicebridge | capture unhealthy — recovery attempt | reason=no audio for 7831.9s (device lost?)
+2026-10-04 08:54:16 INFO    capture | AssemblyAI WS closed (finishing): no close frame received or sent
+2026-10-04 08:54:18 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-04 08:54:18 INFO    capture | Capture stopped
+2026-10-04 08:54:18 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 08:54:18 ERROR   capture | WS connect failed: [Errno 11001] getaddrinfo failed
+2026-10-04 08:54:18 ERROR   voicebridge | recovery failed: capture start error
+Traceback (most recent call last):
+  File "C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\src\voice_bridge.py", line 1051, in _supervisor
+    cap.start()
+    ~~~~~~~~~^^
+  File "C:\Users\Dekan AI Brother\GCE_DON\voice-bridge-v3-build\src\capture.py", line 870, in start
+    raise self._connect_error
+ConnectionError: AssemblyAI WS connect failed: [Errno 11001] getaddrinfo failed
+2026-10-04 08:54:22 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 08:54:22 INFO    capture | AssemblyAI websocket connected
+2026-10-04 08:54:22 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-04 08:54:22 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-04 08:54:23 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-04 08:56:46 WARNING capture | AssemblyAI WS closed unexpectedly: received 1011 (internal error) keepalive ping timeout; then sent 1011 (internal error) keepalive ping timeout — marking capture unhealthy
+2026-10-04 08:56:48 WARNING capture | No final Turn after ForceEndpoint (timeout)
+2026-10-04 08:56:48 ERROR   v3.capture | CAPTURE HEALTH FAULT: audio path: capture stopped
+2026-10-04 08:56:48 WARNING voicebridge | capture unhealthy — recovery attempt | reason=capture stopped
+2026-10-04 08:56:48 INFO    voicebridge | building capture | mic_device=1 device_index=1 speech_model='universal-3-5-pro' sample_rate=16000
+2026-10-04 08:56:48 INFO    capture | AssemblyAI websocket connected
+2026-10-04 08:56:48 INFO    capture | mic device resolved: index=1 name='Microphone (5- USB PnP Audio De' input_channels=2
+2026-10-04 08:56:48 INFO    voicebridge | recovery succeeded — capture running | backoff=2.0s
+2026-10-04 08:56:48 INFO    capture | Capture started (model=universal-3-5-pro, 18 keyterms)
+2026-10-04 08:57:13 INFO    v3.capture | persisted transcript: 0a781e47-376a-46e5-9f84-6a1b7522c222 (401 chars)
+2026-10-04 08:57:13 INFO    v3.interpretation | Shadow log written: 0a781e47-376a-46e5-9f84-6a1b7522c222 (13 claims)
+2026-10-04 08:57:18 INFO    v3.capture | persisted transcript: 1b428aa4-e15c-4c8d-ac0b-8e915593565c (115 chars)
+2026-10-04 08:57:18 INFO    v3.interpretation | Shadow log written: 1b428aa4-e15c-4c8d-ac0b-8e915593565c (1 claims)
+2026-10-04 08:57:24 INFO    voicebridge | close requested — shutting down
+2026-10-04 08:57:25 INFO    capture | AssemblyAI session terminated: 36s audio, 37s session
+2026-10-04 08:57:25 INFO    capture | Capture stopped
+2026-10-04 08:57:25 INFO    voicebridge | shutdown

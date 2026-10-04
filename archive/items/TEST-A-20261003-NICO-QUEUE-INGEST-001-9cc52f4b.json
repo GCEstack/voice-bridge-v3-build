@@ -1,0 +1,15 @@
+{
+  "schema": "gce.completion.artifact",
+  "schema_version": "1.0",
+  "id": "TEST-A-20261003-NICO-QUEUE-INGEST-001",
+  "created_at": "2026-10-03T17:10:00",
+  "source": "Nico",
+  "subject": "TEST A - controlled completion to prove one ingest yields exactly one queue item",
+  "artifact": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\tests\\fixtures\\TEST_A_result.md",
+  "state": "completed",
+  "content_key": "6a59fd5f257bfa3c",
+  "ingested_at": "2026-10-03T23:33:19+00:00",
+  "archived_at": "2026-10-03T23:34:43+00:00",
+  "archive_reason": "don: controlled TEST B archive",
+  "queue_state": "archived"
+}

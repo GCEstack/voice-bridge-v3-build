@@ -1,0 +1,16 @@
+{
+  "schema": "gce.completion.artifact",
+  "schema_version": "1.0",
+  "id": "TEST-C-20261003-NICO-HANDOFF-002",
+  "created_at": "2026-10-03T17:20:00",
+  "source": "Nico",
+  "subject": "TEST C - controlled completion to prove handoff payload plus auto-archive",
+  "artifact": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\tests\\fixtures\\TEST_C_result.md",
+  "state": "completed",
+  "project": "FRAMEWORK",
+  "content_key": "7420735fcaf05e98",
+  "ingested_at": "2026-10-03T23:34:52+00:00",
+  "archived_at": "2026-10-03T23:34:56+00:00",
+  "archive_reason": "handoff created -> TEST-C-20261003-NICO-HANDOFF-002-4660d572.md",
+  "queue_state": "archived"
+}

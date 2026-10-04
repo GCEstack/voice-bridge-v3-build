@@ -4,7 +4,12 @@
   "mode": "wake_word",
   "continuous": true,
   "_note_wake_words": "LEGACY ARCHITECTURE (2026-09-02): 'hey keel' wake-word is the OLD design for bouncing across terminal windows. To be REVISITED under the new orchestrator + framework (Don). Do not invest in the current wake-word architecture.",
-  "wake_words": ["hey keel", "ok keel", "okay keel", "keel"],
+  "wake_words": [
+    "hey keel",
+    "ok keel",
+    "okay keel",
+    "keel"
+  ],
   "armed_timeout_seconds": 12.0,
   "mic_device": 1,
   "assemblyai_api_key": "",
@@ -80,32 +85,13 @@
     "ground_truth_dir": "data/ground-truth",
     "confidence_buckets": 5
   },
-  "handoff_queue": {
-    "registry_path": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge\\queue",
-    "refresh_seconds": 30,
-    "limit": 300,
-    "local_state": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge\\queue_local.json",
-    "_sources_removed": "2026-10-02 (Nico, VoiceBridge recovery). handoff_queue.sources is DELETED, not merely ignored. It listed 06_HANDOFFS / 00_COMMAND\\Decisions / 00_COMMAND\\Findings, and scan_registry branched on it: when present it scanned those roots for *.json and never read registry_path at all. Those roots cannot satisfy a scan - 06_HANDOFFS keeps its JSON inside per-seat subfolders and the durable handoffs are .md, so the panel read 0 records while the producer was writing 38. The key was producer-side metadata that the producer itself never reads. Registry is the single read path.",
-    "_boundary": "VoiceBridge READS registry_path and writes ONLY local_state. It never creates, routes, claims or mutates a handoff record. registry_path must be a LOCAL folder - never a Drive mount (Drive is reached through Cable Car, never through a synchronous Tk scan). The producer side owns registry_path. If it is missing the panel shows 'registry offline' and never auto-creates it.",
-    "_producer": "Filled by command-center\\routing\\handoff_registry_producer.js from the real 06_HANDOFFS corpus and the real ai-inbox lifecycle. Records are named gce-hq-*.json. The panel itself writes nothing here and never invokes the producer. AUTOMATIC (three triggers, none of which Don operates): (1) the Cable Car publish seam, (2) the durable watcher command-center\\start-queue-watch.cmd, a hidden detached node polling 06_HANDOFFS every 15s - added 2026-09-26 because seat bootstraps write handoffs directly as .md and never pass through Cable Car, and (3) a launch-time projection in START-VOICEBRIDGE.cmd added 2026-10-02, which is a ONE-TIME call into the same idempotent command-center launcher so a stale registry cannot present itself as an empty queue on open. OPEN GOVERNANCE QUESTION for Don/Coda: the watcher and queue/README.md both state that VoiceBridge does not spawn the watcher and that START-VOICEBRIDGE.cmd does not reference it. Trigger (3) deliberately contradicts that sentence to satisfy 'new work reaches it without Don operating backend plumbing'. Ratify trigger (3), or name a different automatic trigger; removing it is one deleted block in the launcher. MANUAL re-projection: cd GCE_DON\\command-center && npm run handoff-queue."
-  },
-  "queue_refresh": {
-    "_note": "Queue Refresh Authority Model (2026-09-28, Don/Serafina). Tier 3 file watch. Independent disable - does not affect Tier 1 (manual) or Tier 2 (transport seam).",
-    "enabled": true
-  },
-  "queue_filters": {
-    "_what": "Don-authorized cleanup rules for the DERIVED VoiceBridge review surface (2026-09-26). A handoff is not materialised as a queue record if ANY rule matches. These apply ONLY to what the producer writes into registry_path. They never touch 06_HANDOFFS, ai-inbox, Cable Car, Drive or any canonical/history location, and never mutate a transport lifecycle state. The underlying handoff is untouched - it simply gets no review row.",
-    "_workstream_note": "WORKSTREAM is free text in the gce.cable_car.handoff contract and is never inferred, so 'unresolved' for a workstream means it carries no value at all. PROJECT does resolve against seat_registry.json, so 'unresolved' there means present but not a registered project id.",
-    "_fail_safe": "A record whose date cannot be read is NOT deleted. It is reported as unclassifiable and kept, because 'cannot classify' is not 'matches a rule'.",
-    "enabled": true,
-    "require_project": true,
-    "require_workstream": true,
-    "date_on_or_after": "2026-09-22",
-    "exclude_from_seats": ["Keel", "Talon"]
-  },
   "_deprecated_lanes": {
     "status": "DEPRECATED / DRAIN ONLY (Don ruling D-4, 2026-09-25)",
-    "removed_from_config": ["kimi", "glm", "claude"],
+    "removed_from_config": [
+      "kimi",
+      "glm",
+      "claude"
+    ],
     "paths": [
       "C:\\Users\\Dekan AI Brother\\GCE_DON\\command-center\\ai-inbox\\kimi",
       "C:\\Users\\Dekan AI Brother\\GCE_DON\\command-center\\ai-inbox\\glm",
@@ -114,5 +100,14 @@
     "rule": "A routing destination is a SEAT. These lanes were addressed by model/provider/runtime name, which is exactly the MODEL != SEAT violation. They accept NO new traffic. Existing messages are preserved on disk untouched and may be read for provenance. There is no automatic model -> seat forwarding: no seat name is derived from a model name.",
     "how_to_address_a_seat": "Use the seat mailbox under ...\\ai-inbox\\<seat> or the _shared broadcast, or route a durable handoff through 06_HANDOFFS\\<RECEIVING_SEAT>\\.",
     "reversible": "NOT APPLICABLE as of 2026-09-26 - queue_sources and route_buttons were removed entirely (Nico strategy E). Re-adding them would also reintroduce an intake crawl and a routing surface inside VoiceBridge, which the review-surface boundary forbids."
+  },
+  "queue": {
+    "_what": "Don-facing session queue. Completed work awaiting Don's decision. One ingest, one active item, two explicit actions: ARCHIVE and HANDOFF.",
+    "_paths": "Resolved relative to this product tree by src/completion/paths.py. There is deliberately no absolute path here: the previous absolute paths pointed into the frozen voice-bridge tree, which made that tree a live runtime dependency and split the product across two folders.",
+    "root": ".",
+    "refresh_seconds": 30,
+    "_no_age_rule": "No age-based archival exists. An item leaves the active queue only through Don's ARCHIVE action or a successful HANDOFF.",
+    "_ingest": "python -m src.completion submit <artifact.json>  — the single operation a model uses to return meaningful work.",
+    "_actions": "python -m src.completion archive <id> | handoff <id>  — also available as the ARCHIVE / HANDOFF buttons in the queue panel."
   }
 }
