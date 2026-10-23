@@ -1,0 +1,14 @@
+{
+  "description": "Example Event Identity Contract payload for MLB.",
+  "event_id": "mlb-20261004-lad-vs-sf",
+  "sport": "MLB",
+  "league": "Major League Baseball",
+  "competitors": ["LAD", "SF"],
+  "scheduled_start": "2026-10-04T19:10:00Z",
+  "state_snapshot_id": "snapshot-mlb-20261004-lad-vs-sf-001",
+  "provenance": {
+    "source": "mlb-data-provider-v2",
+    "timestamp": "2026-10-04T12:00:00Z",
+    "version": "2.1.0"
+  }
+}

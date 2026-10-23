@@ -228,6 +228,22 @@ class CaptureConfig:
     # -> Terminate -> Termination), in seconds.
     final_wait_seconds: float = 1.5
     termination_wait_seconds: float = 1.5
+    # WebSocket keepalive, REPAIR 2026-10-04 (Nico, Don: "just fix it so it
+    # works"). Measured from this machine's own log: 69 occurrences of
+    #   received 1011 (internal error) keepalive ping timeout
+    #     then sent 1011 (internal error) keepalive ping timeout
+    # The library default is ping_interval=20 / ping_timeout=20, so ANY network
+    # stall longer than 40 s kills an otherwise healthy dictation socket, and
+    # the supervisor answers by tearing the whole capture down and reopening the
+    # microphone. On a flaky link that produced 113 full capture rebuilds.
+    # A keepalive timeout is a network event, not a device or credential event,
+    # so it gets a generous timeout instead of an instant teardown.
+    # max_size=None disables the 1 MiB frame ceiling: AssemblyAI's finalize and
+    # error frames can exceed it, and a frame-size abort looks like a dead mic.
+    ws_ping_interval: float = 20.0
+    ws_ping_timeout: float = 90.0
+    ws_close_timeout: float = 5.0
+    ws_max_size: int | None = None
 
 
 # Health: PortAudio delivers one block every chunk_size/sample_rate (100 ms at
@@ -674,6 +690,37 @@ class AssemblyAICapture:
     # ------------------------------------------------------------------
     # Main loop
     # ------------------------------------------------------------------
+    async def _connect_ws(self, url: str, headers: dict):
+        """Open the AssemblyAI socket with explicit, tolerant keepalive.
+
+        REPAIR 2026-10-04 (Nico, Don: "just fix it so it works"). The library
+        defaults (ping_interval=20, ping_timeout=20) killed a healthy dictation
+        socket on any network stall longer than 40 s — 69 times in this
+        machine's own log — and each one cost a full capture teardown and
+        microphone reopen.
+
+        A websockets build that rejects one of the keepalive kwargs must not take
+        dictation down, so TypeError falls back to the plain call and says so.
+        Every other exception (auth rejection, DNS failure) propagates to the
+        caller's existing handlers unchanged.
+        """
+        try:
+            return await websockets.connect(
+                url,
+                **{_WS_HEADERS_KWARG: headers},
+                ping_interval=self.config.ws_ping_interval,
+                ping_timeout=self.config.ws_ping_timeout,
+                close_timeout=self.config.ws_close_timeout,
+                max_size=self.config.ws_max_size,
+            )
+        except TypeError:
+            logger.warning(
+                "websocket keepalive kwargs unsupported by this websockets "
+                "build — falling back to library defaults",
+                exc_info=True,
+            )
+            return await websockets.connect(url, **{_WS_HEADERS_KWARG: headers})
+
     async def _run(self) -> None:
         self._done.clear()
         if not _HAS_WEBSOCKETS or not _HAS_AUDIO:
@@ -691,9 +738,10 @@ class AssemblyAICapture:
             # AUTH: Authorization header = the raw API key (NO "Bearer"/"Token"
             # prefix). A token in the URL leaks into server/proxy logs.
             headers = {"Authorization": self.config.api_key}
-            self._ws = await websockets.connect(url, **{_WS_HEADERS_KWARG: headers})
+            # Keepalive is passed explicitly. See CaptureConfig.ws_ping_* for the
+            # measurement that made this necessary (69 x 1011 keepalive timeout).
+            self._ws = await self._connect_ws(url, headers)
         except _WSInvalidStatus as e:
-            status = _status_from_invalid_status(e)
             if status in (401, 402, 403):
                 logger.error(f"WS connect rejected: HTTP {status} (auth/billing)")
                 self._running = False

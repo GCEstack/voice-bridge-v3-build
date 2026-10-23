@@ -1,0 +1,40 @@
+{
+  "description": "Example Market Surface Contract payload for NFL.",
+  "event_id": "nfl-20261004-sf-vs-dal",
+  "fair_state": {
+    "moneyline_sf": -150,
+    "moneyline_dal": 130,
+    "spread_sf": -3.0,
+    "total": 48.5
+  },
+  "market_comparison": {
+    "market_odds": {
+      "moneyline_sf": -140,
+      "moneyline_dal": 120,
+      "spread_sf": -2.5,
+      "total": 49.0
+    },
+    "edge": 0.07,
+    "ev": 0.12
+  },
+  "kalshi_comparison": {
+    "kalshi_odds": {
+      "moneyline_sf": -145,
+      "moneyline_dal": 125
+    },
+    "edge": 0.03,
+    "ev": 0.05
+  },
+  "confidence": 0.88,
+  "WHY": "Fair state adjusted for SF's improved defense and DAL's recent offensive struggles.",
+  "coherence_certificate": {
+    "coherent": true,
+    "inconsistencies": [],
+    "timestamp": "2026-10-04T15:00:00Z"
+  },
+  "provenance": {
+    "source": "nfl-market-provider-v2",
+    "timestamp": "2026-10-04T14:30:00Z",
+    "version": "2.3.0"
+  }
+}

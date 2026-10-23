@@ -56,7 +56,11 @@
   "stt": {
     "provider": "assemblyai",
     "api_key": "",
-    "language_code": "en"
+    "language_code": "en",
+    "ping_interval": 20,
+    "ping_timeout": 90,
+    "close_timeout": 5,
+    "_keepalive_note": "REPAIR 2026-10-04: library defaults (20/20) killed the dictation socket on any network stall over 40s - 69x in this machine's log - and each kill cost a full mic teardown. 20/90 tolerates a stall without dropping dictation. Raise ping_timeout further on a worse link."
   },
   "audio_retention": {
     "enabled": true,
@@ -101,13 +105,19 @@
     "how_to_address_a_seat": "Use the seat mailbox under ...\\ai-inbox\\<seat> or the _shared broadcast, or route a durable handoff through 06_HANDOFFS\\<RECEIVING_SEAT>\\.",
     "reversible": "NOT APPLICABLE as of 2026-09-26 - queue_sources and route_buttons were removed entirely (Nico strategy E). Re-adding them would also reintroduce an intake crawl and a routing surface inside VoiceBridge, which the review-surface boundary forbids."
   },
+  "vibe_code": {
+    "_what": "Lightweight Q&A text documents for Don. Personal scratchpad: interview prep, ledgers, claims to defend, quick notes.",
+    "directory": "vibe_code",
+    "_templates": "Blank, Q&A Ledger, Interview Prep, Implementation Ledger, Quick Notes",
+    "_note": "Documents are plain .md files. Focus the editor and speak — the voice bridge types into whatever window is focused."
+  },
   "queue": {
     "_what": "Don-facing session queue. Completed work awaiting Don's decision. One ingest, one active item, two explicit actions: ARCHIVE and HANDOFF.",
     "_paths": "Resolved relative to this product tree by src/completion/paths.py. There is deliberately no absolute path here: the previous absolute paths pointed into the frozen voice-bridge tree, which made that tree a live runtime dependency and split the product across two folders.",
     "root": ".",
     "refresh_seconds": 30,
     "_no_age_rule": "No age-based archival exists. An item leaves the active queue only through Don's ARCHIVE action or a successful HANDOFF.",
-    "_ingest": "python -m src.completion submit <artifact.json>  — the single operation a model uses to return meaningful work.",
-    "_actions": "python -m src.completion archive <id> | handoff <id>  — also available as the ARCHIVE / HANDOFF buttons in the queue panel."
+    "_ingest": "python -m src.completion submit <artifact.json>  â€” the single operation a model uses to return meaningful work.",
+    "_actions": "python -m src.completion archive <id> | handoff <id>  â€” also available as the ARCHIVE / HANDOFF buttons in the queue panel."
   }
 }

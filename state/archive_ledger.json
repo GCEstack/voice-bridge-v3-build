@@ -12,7 +12,8 @@
     },
     "_by_content": {
       "6a59fd5f257bfa3c": "TEST-A-20261003-NICO-QUEUE-INGEST-001",
-      "7420735fcaf05e98": "TEST-C-20261003-NICO-HANDOFF-002"
+      "7420735fcaf05e98": "TEST-C-20261003-NICO-HANDOFF-002",
+      "9d29850470c1610b": "lattice-freeze-package-20261006"
     },
     "TEST-C-20261003-NICO-HANDOFF-002": {
       "archived_at": "2026-10-03T23:34:56+00:00",
@@ -21,6 +22,14 @@
       "source": "Nico",
       "artifact": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\tests\\fixtures\\TEST_C_result.md",
       "archived_item": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\archive\\items\\TEST-C-20261003-NICO-HANDOFF-002-4660d572.json"
+    },
+    "lattice-freeze-package-20261006": {
+      "archived_at": "2026-10-06T14:11:26+00:00",
+      "reason": "handoff created -> lattice-freeze-package-20261006-a56b6836.md",
+      "subject": "LATTICE: stale README refreshed (claimed Stage 2 blocked while Stage 2/3/4 proofs existed), 4 open-question decisions delivered for Don, full battery green (243 tests, replay 6/6 NO FAKE PASS, freezes PASS, identity MATCH 59 files); freeze package handed to Enzo for ruling",
+      "source": "lattice (engine identity, not a seat)",
+      "artifact": "C:\\Users\\Dekan AI Brother\\Desktop\\GCE_EC_Math_Engine_Show_Down\\LATTICE_FREEZE_PACKAGE_2026-10-06.md",
+      "archived_item": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\archive\\items\\lattice-freeze-package-20261006-a56b6836.json"
     }
   }
 }

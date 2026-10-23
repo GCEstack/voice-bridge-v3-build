@@ -1,0 +1,13 @@
+{
+  "description": "Example Participant Identity Contract payload for an MLB player.",
+  "participant_id": "mlb-p-clayton-kershaw-001",
+  "role": "player",
+  "team": "LAD",
+  "reliability": 0.95,
+  "uncertainty": 0.05,
+  "provenance": {
+    "source": "mlb-roster-provider-v2",
+    "timestamp": "2026-10-04T12:00:00Z",
+    "version": "2.1.0"
+  }
+}

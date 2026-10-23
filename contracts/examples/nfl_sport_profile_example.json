@@ -1,0 +1,58 @@
+{
+  "description": "Example Sport Profile Package for NFL.",
+  "sport": "NFL",
+  "offense_attack": {
+    "metrics": {
+      "yards_per_play": 5.8,
+      "red_zone_efficiency": 0.62
+    },
+    "uncertainty": 0.1,
+    "field_state": "PROXY"
+  },
+  "defense_prevention": {
+    "metrics": {
+      "yards_allowed_per_play": 4.9,
+      "turnovers_forced": 1.4
+    },
+    "uncertainty": 0.08,
+    "field_state": "AVAILABLE"
+  },
+  "coach_manager_system": {
+    "metrics": {
+      "offensive_scheme_efficiency": 0.78,
+      "defensive_scheme_efficiency": 0.82
+    },
+    "uncertainty": 0.12,
+    "field_state": "PROXY"
+  },
+  "star_impact": {
+    "metrics": {
+      "qb_rating_delta": 12.5,
+      "defensive_impact_rating": 8.1
+    },
+    "uncertainty": 0.05,
+    "field_state": "AVAILABLE"
+  },
+  "matchup": {
+    "metrics": {
+      "pass_rush_vs_protection": 0.65,
+      "coverage_vs_receiving": 0.72
+    },
+    "uncertainty": 0.15,
+    "field_state": "PROXY"
+  },
+  "environment": {
+    "metrics": {
+      "weather_impact": 0.9,
+      "home_field_advantage": 1.1
+    },
+    "uncertainty": 0.2,
+    "field_state": "AVAILABLE"
+  },
+  "global_uncertainty": 0.1,
+  "provenance": {
+    "source": "nfl-sport-profile-provider-v1",
+    "timestamp": "2026-10-04T14:00:00Z",
+    "version": "1.0.0"
+  }
+}

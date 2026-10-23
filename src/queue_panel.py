@@ -251,13 +251,19 @@ class QueuePanel(tk.Frame):
         head = tk.Frame(self)
         head.pack(fill="x")
         tk.Label(head, text="SESSION QUEUE", font=("Arial", 11, "bold")).pack(side="left")
-        ttk.Button(head, text="Refresh", command=self.refresh, width=9).pack(side="right")
 
         self.archived_var = tk.BooleanVar(value=False)
-        self.archived_btn = ttk.Checkbutton(head, text="Archived (0)",
-                                            variable=self.archived_var,
-                                            command=self._toggle_archived)
-        self.archived_btn.pack(side="right", padx=6)
+        view_frame = tk.Frame(head)
+        view_frame.pack(side="right")
+        self.active_btn = ttk.Radiobutton(view_frame, text="ACTIVE", variable=self.archived_var,
+                                          value=False, command=self._toggle_archived)
+        self.active_btn.pack(side="left")
+        self.archived_radio = ttk.Radiobutton(view_frame, text="ARCHIVED",
+                                               variable=self.archived_var,
+                                               value=True, command=self._toggle_archived)
+        self.archived_radio.pack(side="left")
+
+        ttk.Button(head, text="Refresh", command=self.refresh, width=9).pack(side="right", padx=(8, 0))
 
         grid = tk.Frame(self)
         grid.pack(fill="both", expand=True, pady=(4, 4))
@@ -294,22 +300,26 @@ class QueuePanel(tk.Frame):
 
         actions = tk.Frame(self)
         actions.pack(fill="x", pady=(0, 2))
+
+        self.btn_handoff = ttk.Button(actions, text="HANDOFF", width=11,
+                                      command=self._on_handoff)
+        self.btn_handoff.pack(side="left", padx=2)
+
+        self.btn_archive = ttk.Button(actions, text="ARCHIVE", width=11,
+                                      command=self._on_archive)
+        self.btn_archive.pack(side="left", padx=2)
+
+        ttk.Separator(actions, orient="vertical").pack(side="left", fill="y", padx=6)
+
+        util_frame = tk.Frame(actions)
+        util_frame.pack(side="left")
         for label, fn, w in (
             ("Open", self._on_open, 10),
             ("Copy Text", self._on_copy_text, 11),
             ("Copy Path", self._on_copy_path, 11),
             ("Open folder", self._on_open_folder, 12),
         ):
-            ttk.Button(actions, text=label, width=w, command=fn).pack(side="left", padx=2)
-
-        ttk.Separator(actions, orient="vertical").pack(side="left", fill="y", padx=6)
-
-        self.btn_archive = ttk.Button(actions, text="ARCHIVE", width=11,
-                                      command=self._on_archive)
-        self.btn_archive.pack(side="left", padx=2)
-        self.btn_handoff = ttk.Button(actions, text="HANDOFF", width=11,
-                                      command=self._on_handoff)
-        self.btn_handoff.pack(side="left", padx=2)
+            ttk.Button(util_frame, text=label, width=w, command=fn).pack(side="left", padx=1)
 
         self.action_status = tk.Label(self, text="", fg="#15803d", font=("Arial", 9))
         self.action_status.pack(anchor="w")
@@ -353,11 +363,16 @@ class QueuePanel(tk.Frame):
                 it.get("subject", "-"),
                 it.get("source", "?"),
                 format_human_time(it.get("created_at", "")),
-                it.get("project", "") or "-",
+                it.get("project", ""),
             ), tags=(tag,))
         archived_n = len(self.store.archived())
         self.archived_var.set(self.show_archived)
-        self.archived_btn.configure(text=f"Archived ({archived_n})")
+        if self.show_archived:
+            self.active_btn.config(text=f"ACTIVE ({len(self.store.active())})")
+            self.archived_radio.config(text=f"ARCHIVED ({archived_n})")
+        else:
+            self.active_btn.config(text=f"ACTIVE ({len(self.store.active())})")
+            self.archived_radio.config(text=f"ARCHIVED ({archived_n})")
         self._show_detail(self._selected())
 
     def _toggle_archived(self):
@@ -368,15 +383,35 @@ class QueuePanel(tk.Frame):
         if not it:
             self._set_detail("")
             return
-        extra = ""
+        lines = []
+        lines.append(f"SUBJECT: {it.get('subject', '-')}")
+        source = it.get('source', '?')
+        state = it.get('state', '-')
+        created = format_human_time(it.get('created_at', ''))
+        lines.append(f"Source: {source}    State: {state}    {created}")
+        if it.get("project"):
+            lines.append(f"Project: {it['project']}")
         if it.get("workstream"):
-            extra += f"    workstream: {it['workstream']}"
-        self._set_detail(
-            f"source: {it.get('source','?')}    state: {it.get('state','-')}{extra}\n"
-            f"artifact: {it.get('artifact','') or '(none)'}\n"
-            f"created:  {it.get('created_at','')}\n"
-            f"id:       {it.get('id','')}\n\n"
-            f"{it.get('subject','')}")
+            lines.append(f"Workstream: {it['workstream']}")
+        artifact = it.get('artifact', '')
+        if artifact:
+            lines.append(f"Artifact: {artifact}")
+        lines.append(f"ID: {it.get('id', '')}")
+
+        body_preview = ""
+        art = Path(it.get("artifact", ""))
+        if art.exists() and art.is_file():
+            try:
+                body_text = art.read_text(encoding="utf-8", errors="replace")
+                body_preview = body_text.strip()[:500]
+            except OSError:
+                pass
+        if body_preview:
+            lines.append("")
+            lines.append("RESULT PREVIEW:")
+            lines.append(body_preview)
+
+        self._set_detail("\n".join(lines))
 
     def _set_detail(self, text):
         self.detail.config(state="normal")

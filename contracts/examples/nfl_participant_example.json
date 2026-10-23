@@ -1,0 +1,13 @@
+{
+  "description": "Example Participant Identity Contract payload for an NFL coach.",
+  "participant_id": "nfl-c-kyle-shanahan-001",
+  "role": "coach",
+  "team": "SF",
+  "reliability": 0.92,
+  "uncertainty": 0.08,
+  "provenance": {
+    "source": "nfl-roster-provider-v3",
+    "timestamp": "2026-10-04T13:00:00Z",
+    "version": "3.2.0"
+  }
+}

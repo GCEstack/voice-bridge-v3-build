@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sport Profile Package",
+  "description": "Canonical fields for sport profiles in the EdgeCrew Math Engine.",
+  "type": "object",
+  "properties": {
+    "sport": {
+      "description": "Sport type (e.g., MLB, NFL, NCAA Football).",
+      "type": "string"
+    },
+    "offense_attack": {
+      "description": "Metrics for offense/attack performance.",
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "description": "Key metrics for offense/attack.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "uncertainty": {
+          "description": "Uncertainty score (0.0 to 1.0).",
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "field_state": {
+          "description": "Field state for offense/attack metrics.",
+          "type": "string",
+          "enum": ["MISSING", "PROXY", "STALE", "UNAVAILABLE", "CONFLICTED"]
+        }
+      },
+      "required": ["metrics", "uncertainty", "field_state"]
+    },
+    "defense_prevention": {
+      "description": "Metrics for defense/prevention performance.",
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "description": "Key metrics for defense/prevention.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "uncertainty": {
+          "description": "Uncertainty score (0.0 to 1.0).",
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "field_state": {
+          "description": "Field state for defense/prevention metrics.",
+          "type": "string",
+          "enum": ["MISSING", "PROXY", "STALE", "UNAVAILABLE", "CONFLICTED"]
+        }
+      },
+      "required": ["metrics", "uncertainty", "field_state"]
+    },
+    "coach_manager_system": {
+      "description": "Metrics for coaching/management/system performance.",
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "description": "Key metrics for coaching/management/system.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "uncertainty": {
+          "description": "Uncertainty score (0.0 to 1.0).",
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "field_state": {
+          "description": "Field state for coaching/management/system metrics.",
+          "type": "string",
+          "enum": ["MISSING", "PROXY", "STALE", "UNAVAILABLE", "CONFLICTED"]
+        }
+      },
+      "required": ["metrics", "uncertainty", "field_state"]
+    },
+    "star_impact": {
+      "description": "Metrics for star/impact players.",
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "description": "Key metrics for star/impact players.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "uncertainty": {
+          "description": "Uncertainty score (0.0 to 1.0).",
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "field_state": {
+          "description": "Field state for star/impact metrics.",
+          "type": "string",
+          "enum": ["MISSING", "PROXY", "STALE", "UNAVAILABLE", "CONFLICTED"]
+        }
+      },
+      "required": ["metrics", "uncertainty", "field_state"]
+    },
+    "matchup": {
+      "description": "Metrics for matchup dynamics.",
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "description": "Key metrics for matchup dynamics.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "uncertainty": {
+          "description": "Uncertainty score (0.0 to 1.0).",
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "field_state": {
+          "description": "Field state for matchup metrics.",
+          "type": "string",
+          "enum": ["MISSING", "PROXY", "STALE", "UNAVAILABLE", "CONFLICTED"]
+        }
+      },
+      "required": ["metrics", "uncertainty", "field_state"]
+    },
+    "environment": {
+      "description": "Metrics for environmental factors.",
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "description": "Key metrics for environmental factors.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "uncertainty": {
+          "description": "Uncertainty score (0.0 to 1.0).",
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "field_state": {
+          "description": "Field state for environmental metrics.",
+          "type": "string",
+          "enum": ["MISSING", "PROXY", "STALE", "UNAVAILABLE", "CONFLICTED"]
+        }
+      },
+      "required": ["metrics", "uncertainty", "field_state"]
+    },
+    "global_uncertainty": {
+      "description": "Global uncertainty score (0.0 to 1.0).",
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "provenance": {
+      "description": "Provenance metadata for replayability.",
+      "type": "object",
+      "properties": {
+        "source": {
+          "description": "Source of the sport profile data.",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "Timestamp of data ingestion (ISO 8601).",
+          "type": "string",
+          "format": "date-time"
+        },
+        "version": {
+          "description": "Version of the data schema.",
+          "type": "string"
+        }
+      },
+      "required": ["source", "timestamp", "version"]
+    }
+  },
+  "required": [
+    "sport",
+    "offense_attack",
+    "defense_prevention",
+    "coach_manager_system",
+    "star_impact",
+    "matchup",
+    "environment",
+    "global_uncertainty",
+    "provenance"
+  ],
+  "validation_rules": {
+    "MISSING != ZERO": "Metrics marked as MISSING must not be assigned a default value of zero.",
+    "PROXY != STALE": "PROXY and STALE are mutually exclusive states.",
+    "UNAVAILABLE != CONFLICTED": "UNAVAILABLE and CONFLICTED are mutually exclusive states."
+  }
+}

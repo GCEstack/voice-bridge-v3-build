@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Field-State Vocabulary",
+  "description": "Standardized states for missingness in the EdgeCrew Math Engine.",
+  "type": "object",
+  "properties": {
+    "field_state": {
+      "description": "Standardized state for missingness or data quality.",
+      "type": "string",
+      "enum": [
+        "MISSING",
+        "PROXY",
+        "STALE",
+        "UNAVAILABLE",
+        "CONFLICTED"
+      ]
+    }
+  },
+  "required": ["field_state"],
+  "validation_rules": {
+    "MISSING": {
+      "description": "Data is entirely absent. MUST NOT be assigned a default value.",
+      "rules": [
+        "MISSING != ZERO",
+        "MISSING != NULL"
+      ]
+    },
+    "PROXY": {
+      "description": "Data is approximated using a proxy (e.g., historical average).",
+      "rules": [
+        "PROXY != STALE"
+      ]
+    },
+    "STALE": {
+      "description": "Data is outdated but still usable for limited purposes.",
+      "rules": [
+        "STALE != PROXY"
+      ]
+    },
+    "UNAVAILABLE": {
+      "description": "Data cannot be retrieved due to external constraints.",
+      "rules": [
+        "UNAVAILABLE != CONFLICTED"
+      ]
+    },
+    "CONFLICTED": {
+      "description": "Multiple conflicting sources exist for the same data point.",
+      "rules": [
+        "CONFLICTED != UNAVAILABLE"
+      ]
+    }
+  }
+}

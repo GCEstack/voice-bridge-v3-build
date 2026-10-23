@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Event Identity Contract",
+  "description": "Canonical contract for event identity in the EdgeCrew Math Engine.",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "description": "Unique identifier for the event.",
+      "type": "string"
+    },
+    "sport": {
+      "description": "Sport type (e.g., MLB, NFL, NCAA Football).",
+      "type": "string"
+    },
+    "league": {
+      "description": "League or competition name.",
+      "type": "string"
+    },
+    "competitors": {
+      "description": "List of competitor identifiers.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scheduled_start": {
+      "description": "Scheduled start time (ISO 8601).",
+      "type": "string",
+      "format": "date-time"
+    },
+    "state_snapshot_id": {
+      "description": "Identifier for the state snapshot associated with this event.",
+      "type": "string"
+    },
+    "provenance": {
+      "description": "Provenance metadata for replayability.",
+      "type": "object",
+      "properties": {
+        "source": {
+          "description": "Source of the event data.",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "Timestamp of data ingestion (ISO 8601).",
+          "type": "string",
+          "format": "date-time"
+        },
+        "version": {
+          "description": "Version of the data schema.",
+          "type": "string"
+        }
+      },
+      "required": ["source", "timestamp", "version"]
+    }
+  },
+  "required": [
+    "event_id",
+    "sport",
+    "league",
+    "competitors",
+    "scheduled_start",
+    "state_snapshot_id",
+    "provenance"
+  ]
+}

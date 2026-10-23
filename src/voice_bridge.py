@@ -58,6 +58,36 @@ from src.voice_profile import profile_command, profile_hotkey
 # plus the Stage 2 interpretation shadow. Neither has live authority: the
 # shadow writes only to data/shadow-log and never touches dictation.
 from src.capture_service import CaptureService as V3CaptureService
+
+# REPAIR 2026-10-04 (Nico, Don: "just fix it so it works").
+#
+# DNS / name-resolution and reset blips are transient: they clear in seconds and
+# they say nothing about the microphone, the API key or the STT service. They
+# must not be escalated like a hard failure, because doing so parks dictation in
+# a 30 s backoff for what is usually a one- or two-second resolver hiccup.
+_DNS_ERROR_MARKERS = (
+    "getaddrinfo",       # socket.gaierror — the exact error seen 34x in the log
+    "name or service not known",
+    "temporary failure in name resolution",
+    "nodename nor servname",
+    "connection reset",
+    "connection aborted",
+    "connection refused",
+    "network is unreachable",
+    "timed out",
+)
+
+# A DNS blip resolves fast, so the ceiling stays low. Long enough not to hammer
+# the resolver, short enough that dictation is back before it is noticed.
+_DNS_RETRY_BACKOFF_CEILING = 8.0
+
+
+def _is_transient_network_error(exc: BaseException) -> bool:
+    """True when a connect failure looks like DNS/network, not config or auth."""
+    text = f"{type(exc).__name__}: {exc}".lower()
+    if "assemblyai rejected the api key" in text:
+        return False  # auth/billing is never transient
+    return any(m in text for m in _DNS_ERROR_MARKERS)
 from src.capture_service import CaptureConfig as V3CaptureConfig
 from src.capture_service import TranscriptRecord
 from src.interpretation_shadow import InterpretationShadowPipeline
@@ -243,6 +273,13 @@ class WakeWordBridge:
         self._reconnect_backoff = float(self.config.get("supervisor_interval_seconds", 2.0))
         # Cumulative dictated characters since the last auto-macro reset.
         self._typed_chars = 0
+        # Dedup state for partials: skip identical consecutive partials to
+        # avoid flooding the status line and the engine queue.
+        self._last_partial: str = ""
+        # Dedup state for finals: prevent typing the same text twice in a row
+        # (guards against duplicate finals from STT reconnects).
+        self._last_final: str = ""
+        self._last_final_time: float = 0.0
         # Auto-macro thresholds from config (0 disables).
         self._auto_proofread_after = self.config.get("auto_proofread_after", _AUTO_PROOFREAD_AFTER)
         self._auto_concise_after = self.config.get("auto_concise_after", _AUTO_CONCISE_AFTER)
@@ -658,9 +695,24 @@ class WakeWordBridge:
         if not is_final:
             # SURGERY C: ephemeral. This is a display preview only — it is
             # never written to disk by anything downstream of here.
+            # DEDUP: skip identical consecutive partials to reduce status-line
+            # flooding and redundant engine-queue entries.
+            if text.strip() == self._last_partial.strip():
+                return
+            self._last_partial = text.strip()
+            # Throttle status updates: don't flood Tkinter's event queue.
+            import time as _t
+            now = _t.time()
+            if now - getattr(self, "_last_partial_status_time", 0.0) < 0.15:
+                # Still enqueue for persistence, but skip the status flash.
+                self._turn_queue.put((text, False))
+                return
+            self._last_partial_status_time = now
             self._set_status(f"♪ {text[:40]}")
             self._turn_queue.put((text, False))
             return
+        # Final: reset partial dedup state
+        self._last_partial = ""
         self._turn_queue.put((text, True))
 
     def _dispatch_loop(self):
@@ -750,6 +802,16 @@ class WakeWordBridge:
         text = (text or "").strip()
         if not text:
             return
+        # DEDUP GUARD: prevent typing the same final twice in a row (can happen
+        # on STT reconnects or duplicate finals). Skip if identical to the last
+        # final within a short window.
+        import time as _t
+        now = _t.time()
+        if text == self._last_final and (now - self._last_final_time) < 5.0:
+            logger.info("DEDUP: skipping duplicate final | %r", text[:60])
+            return
+        self._last_final = text
+        self._last_final_time = now
 
         # Continuous mode: type into the focused window, no wake-word gate.
         # Session commands still work (stop/start/quit); everything else types.
@@ -926,6 +988,15 @@ class WakeWordBridge:
             sample_rate=self.config.get("sample_rate", 16000),
             channels=self.config.get("channels", 1),
             keyterms=tuple(self.config.get("keyterms") or ()),
+            # Keepalive is config-driven so the tolerance can be tuned for a
+            # different network without a code change. See the stt block in
+            # config.json and CaptureConfig.ws_ping_* for the measurement.
+            ws_ping_interval=float(
+                (self.config.get("stt") or {}).get("ping_interval", 20.0)),
+            ws_ping_timeout=float(
+                (self.config.get("stt") or {}).get("ping_timeout", 90.0)),
+            ws_close_timeout=float(
+                (self.config.get("stt") or {}).get("close_timeout", 5.0)),
         )
         cap = AssemblyAICapture(cfg)
         cap.on_transcript = self.on_transcript
@@ -1092,7 +1163,27 @@ class WakeWordBridge:
                         logger.error(
                             "recovery failed: capture start error", exc_info=True,
                         )
-                        self._reconnect_backoff = min(30.0, self._reconnect_backoff * 2)
+                        # REPAIR 2026-10-04 (Nico, Don: "just fix it so it works").
+                        # Name-resolution failure is a different animal from a real
+                        # connect failure: it is a transient resolver/network event
+                        # that clears in seconds, and 34 of them were logged on this
+                        # machine. Escalating it like a hard failure walked the
+                        # backoff up to its 30 s ceiling, so every short DNS blip
+                        # cost half a minute of dead air. Retry DNS quickly and
+                        # boundedly instead; everything else keeps the old ramp.
+                        if _is_transient_network_error(e):
+                            self._reconnect_backoff = min(
+                                _DNS_RETRY_BACKOFF_CEILING,
+                                max(interval, self._reconnect_backoff * 1.5),
+                            )
+                            logger.warning(
+                                "transient network/DNS failure — fast retry in %.1fs",
+                                self._reconnect_backoff,
+                            )
+                        else:
+                            self._reconnect_backoff = min(
+                                30.0, self._reconnect_backoff * 2
+                            )
             except Exception as e:
                 self._set_status(f"supervisor error: {e}")
                 logger.error("supervisor loop error", exc_info=True)
@@ -1113,34 +1204,54 @@ class WakeWordBridge:
         self.root.minsize(560, 480)
         self.root.attributes("-topmost", True)
 
-        ttk.Label(self.root, text="VoiceBridge", font=("Arial", 14)).pack(pady=(10, 2))
+        ttk.Label(self.root, text="VoiceBridge", font=("Arial", 14)).pack(pady=(6, 2))
         self.status_label = ttk.Label(self.root, text="starting...", font=("Arial", 10))
-        self.status_label.pack(pady=(6, 2), fill="x", padx=10)
-        # V3 SURGERY D: engine health (STT connection + capture loop) in the
-        # status area. One added line; nothing else in the layout moves.
-        self.health_label = ttk.Label(self.root, text="HEALTH starting...",
-                                      font=("Arial", 8))
-        self.health_label.pack(pady=(0, 2), fill="x", padx=10)
+        self.status_label.pack(pady=(2, 2), fill="x", padx=10)
 
-        btns = ttk.Frame(self.root)
-        btns.pack(pady=4)
-        ttk.Label(btns, text="MODE: continuous", font=("Arial", 9, "bold")).pack(pady=2)
-        self.mute_btn = ttk.Button(btns, text="MIC: ON", command=self._toggle_mute)
-        self.mute_btn.pack(side="left", padx=4)
-        ttk.Button(btns, text="Reconnect", command=self._reconnect_now).pack(padx=4)
-        ttk.Button(btns, text="Quit", command=self._on_close).pack(padx=4)
+        health_frame = tk.Frame(self.root)
+        health_frame.pack(pady=(0, 2), fill="x", padx=10)
+        self.health_label = ttk.Label(health_frame, text="STT: --",
+                                       font=("Arial", 8), foreground="#6b7280")
+        self.health_label.pack(side="left")
+        self.mute_btn = ttk.Button(health_frame, text="MIC: ON", width=9,
+                                    command=self._toggle_mute)
+        self.mute_btn.pack(side="left", padx=8)
+        ttk.Button(health_frame, text="Reconnect", command=self._reconnect_now).pack(side="left", padx=2)
+        ttk.Button(health_frame, text="Quit", command=self._on_close).pack(side="left", padx=2)
 
-        # Handoff review queue — Don/Coda review surface, READ-ONLY.
-        # Never writes a handoff record; a broken panel must not stop dictation.
+        # ------------------------------------------------------------------
+        # Tabbed review surface — Queue (handoffs) + Vibe Code (Q&A docs).
+        # Each panel is independent; a broken one must not stop dictation.
+        # ------------------------------------------------------------------
+        self.notebook = ttk.Notebook(self.root)
+        self.notebook.pack(fill="both", expand=True, padx=8, pady=(2, 8))
+
+        # Tab 1: Handoff review queue (Don/Coda review surface, READ-ONLY).
         self.queue_panel = None
+        queue_frame = ttk.Frame(self.notebook)
+        self.notebook.add(queue_frame, text="Queue")
         try:
             from src.queue_panel import QueuePanel
-            self.queue_panel = QueuePanel(self.root, self.config)
-            self.queue_panel.pack(fill="both", expand=True, padx=8, pady=(2, 8))
+            self.queue_panel = QueuePanel(queue_frame, self.config)
+            self.queue_panel.pack(fill="both", expand=True)
         except Exception as e:
             import traceback
             traceback.print_exc()
-            ttk.Label(self.root, text=f"queue panel unavailable: {e}",
+            ttk.Label(queue_frame, text=f"queue panel unavailable: {e}",
+                      foreground="#b91c1c").pack(pady=4)
+
+        # Tab 2: Vibe Code — lightweight Q&A text documents.
+        self.vibe_code_panel = None
+        vibe_frame = ttk.Frame(self.notebook)
+        self.notebook.add(vibe_frame, text="Vibe Code")
+        try:
+            from src.vibe_code import VibeCodePanel
+            self.vibe_code_panel = VibeCodePanel(vibe_frame, self.config)
+            self.vibe_code_panel.pack(fill="both", expand=True)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            ttk.Label(vibe_frame, text=f"vibe code panel unavailable: {e}",
                       foreground="#b91c1c").pack(pady=4)
 
     def _toggle_mute(self):
@@ -1188,11 +1299,11 @@ class WakeWordBridge:
             cap_ok, cap_why = self.capture.health()
         ok = engine_ok and cap_ok and dead_reason is None
         if ok:
-            text = f"HEALTH ok · stt {engine_why} · capture {cap_why}"
+            text = f"STT: ok | Capture: ok"
             color = "#166534"
         else:
             detail = dead_reason or (cap_why if not cap_ok else engine_why)
-            text = f"HEALTH FAULT · {detail}"
+            text = f"STT: FAULT | {detail}"
             color = "#b91c1c"
 
         def _apply():

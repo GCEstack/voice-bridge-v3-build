@@ -1,0 +1,14 @@
+{
+  "description": "Example Event Identity Contract payload for NFL.",
+  "event_id": "nfl-20261004-sf-vs-dal",
+  "sport": "NFL",
+  "league": "National Football League",
+  "competitors": ["SF", "DAL"],
+  "scheduled_start": "2026-10-04T20:20:00Z",
+  "state_snapshot_id": "snapshot-nfl-20261004-sf-vs-dal-001",
+  "provenance": {
+    "source": "nfl-data-provider-v3",
+    "timestamp": "2026-10-04T13:00:00Z",
+    "version": "3.2.0"
+  }
+}

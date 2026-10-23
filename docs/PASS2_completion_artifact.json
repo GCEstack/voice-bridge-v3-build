@@ -1,0 +1,10 @@
+{
+  "id": "20261004-NICO-VB-QUEUE-RESET-PASS2",
+  "created_at": "2026-10-04T09:40:00",
+  "source": "Nico",
+  "subject": "VoiceBridge queue plumbing reset - Pass 2 complete: one ingest, one queue, ARCHIVE and HANDOFF both proven in the real product",
+  "artifact": "C:\\Users\\Dekan AI Brother\\GCE_DON\\voice-bridge-v3-build\\docs\\VOICEBRIDGE_QUEUE_RESET_PASS2_RETURN_20261004.md",
+  "state": "completed",
+  "project": "FRAMEWORK",
+  "workstream": "VoiceBridge session queue"
+}
